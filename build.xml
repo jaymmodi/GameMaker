@@ -7,7 +7,7 @@
   ########################################################################################-->
 
 	<!-- Base properties that will likely need to be changed when using this template for a different project -->
-	<property name="base.project.name" value="team2" /> 
+	<property name="base.project.name" value="team2" />
 	<property name="base.project.name.friendly" value="Team2" />
 	<property name="assignment.name" value="spring2015/a5" />
 	<property name="code-root" value="." />
@@ -23,7 +23,7 @@
 	<property name="project.build.home" value="${code-root}/bin" />
 	<property name="dist" value="${code-root}/dist" />
 	<property name="test" value="${code-root}/test" />
-	<property name="testclasses" value="${code-root}/testout" />
+	<property name="testclasses" value="${code-root}/testbin" />
 	<property name="classes" value="${code-root}/bin" />
 	<property name="src" value="${code-root}/src" />
 	<property name="lib" value="${code-root}/lib" />
@@ -137,7 +137,6 @@
 				<fileset dir="${testclasses}" includes="${tests.includes}" />
 			</batchtest>
 
-			<jvmarg value="-XX:-UseSplitVerifier" />
 			<jvmarg value="-Demma.coverage.out.merge=true" />
 			<jvmarg value="-Demma.report.out.encoding=UTF-8" />
 			<jvmarg value="-Djava.awt.headless=${java.awt.headless}" />
@@ -231,8 +230,7 @@
 				<fileset dir="${classes}" includes="${tests.includes}" />
 				<fileset dir="${testclasses}" includes="${tests.includes}" />
 			</batchtest>
-			
- 			<jvmarg value="-XX:-UseSplitVerifier" />
+
 			<jvmarg value="-Demma.coverage.out.file=${dist.coverage.dir}/coverage.emma" />
 			<jvmarg value="-Demma.coverage.out.merge=true" />
 			<jvmarg value="-Demma.report.out.encoding=UTF-8" />

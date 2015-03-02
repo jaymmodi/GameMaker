@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="http://fluency.knownspace.org/student-files/examples/project-template/" href="project.jnlp">
+<jnlp spec="1.0+" codebase="http://fluency.knownspace.org/student-files/spring2015/a4/team2/" href="project.jnlp">
   <information>
-    <title>Hello World</title>
+    <title>Game Maker</title>
     <vendor>P532</vendor>
     <homepage href="http://fluency.knownspace.org/confluence" />
     <description>Testing...</description>   
@@ -14,7 +14,7 @@
   </security>
   <resources>
     <j2se version="1.6+" />
-    <jar href="project-template.jar" />
+    <jar href="team2.jar" />
   </resources>
-  <application-desc main-class="main.HelloWorld" />
+  <application-desc main-class="main.GameMaker" />
 </jnlp>
