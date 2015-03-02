@@ -5,7 +5,7 @@
   ########################################################################################
   Global properties. These are used by all targets in this build file.
   ########################################################################################-->
-
+  
 	<!-- Base properties that will likely need to be changed when using this template for a different project -->
 	<property name="base.project.name" value="team2" /> 
 	<property name="base.project.name.friendly" value="Team2" />

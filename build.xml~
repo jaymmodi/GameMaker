@@ -5,11 +5,11 @@
   ########################################################################################
   Global properties. These are used by all targets in this build file.
   ########################################################################################-->
-
+ 
 	<!-- Base properties that will likely need to be changed when using this template for a different project -->
-	<property name="base.project.name" value="project-template" /> 
-	<property name="base.project.name.friendly" value="Example Project Template" />
-	<property name="assignment.name" value="examples" />
+	<property name="base.project.name" value="team2" /> 
+	<property name="base.project.name.friendly" value="Team2" />
+	<property name="assignment.name" value="spring2015/a5" />
 	<property name="code-root" value="." />
 	<property name="wwwroot" value="/u/kspace/www/fluency" />
 
