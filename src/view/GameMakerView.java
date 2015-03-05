@@ -86,7 +86,7 @@ public class GameMakerView extends JFrame {
 
 	private JLabel spriteImageLabel = new JLabel("Image");
 	// private JComboBox imagesList = new JComboBox(imageStrings);
-	private JList<ImageIcon> imagesList = new JList(imageStrings);
+	private JList imagesList = new JList();
 
 //	private JLabel spriteXPositionLabel = new JLabel("x-position");
 //	private JTextField spriteXPosition = new JTextField(10);
