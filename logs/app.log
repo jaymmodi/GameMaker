@@ -1,0 +1,18 @@
+2015-01-04 16:01:49.068 [main] INFO  main.GameMaker - GameMaker : main : Enter
+2015-01-04 16:01:49.375 [main] INFO  view.GameMakerView - GameMakerView : GameMakerView() : Enter
+2015-01-04 16:01:49.727 [main] INFO  view.GameMakerView - GameMakerView : GameMakerView() : Exit
+2015-01-04 16:01:49.728 [main] INFO  main.GameMaker - GameMakerController : Enter
+2015-01-04 16:01:49.733 [main] INFO  main.GameMaker - GameMakerController : Exit
+2015-01-04 16:01:50.210 [main] INFO  main.GameMaker - GameMaker : main : Exit
+2015-04-04 16:04:02.537 [main] INFO  main.GameMaker - GameMaker : main : Enter
+2015-04-04 16:04:02.912 [main] INFO  view.GameMakerView - GameMakerView : GameMakerView() : Enter
+2015-04-04 16:04:03.251 [main] INFO  view.GameMakerView - GameMakerView : GameMakerView() : Exit
+2015-04-04 16:04:03.252 [main] INFO  main.GameMaker - GameMakerController : Enter
+2015-04-04 16:04:03.259 [main] INFO  main.GameMaker - GameMakerController : Exit
+2015-04-04 16:04:03.763 [main] INFO  main.GameMaker - GameMaker : main : Exit
+2015-20-04 20:20:46.251 [main] INFO  main.GameMaker - GameMaker : main : Enter
+2015-20-04 20:20:47.967 [main] INFO  view.GameMakerView - GameMakerView : GameMakerView() : Enter
+2015-20-04 20:20:48.322 [main] INFO  view.GameMakerView - GameMakerView : GameMakerView() : Exit
+2015-20-04 20:20:48.323 [main] INFO  main.GameMaker - GameMakerController : Enter
+2015-20-04 20:20:48.391 [main] INFO  main.GameMaker - GameMakerController : Exit
+2015-20-04 20:20:49.188 [main] INFO  main.GameMaker - GameMaker : main : Exit

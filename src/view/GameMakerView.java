@@ -10,13 +10,12 @@ import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DropMode;
@@ -36,10 +35,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.TransferHandler;
-import javax.swing.TransferHandler.TransferSupport;
 
 import main.Constants;
-import model.SpriteModel;
 //import main.TimerObservable;
 import observer.GameBoardPanel;
 import observer.GameClockPanel;
@@ -86,7 +83,7 @@ public class GameMakerView extends JFrame {
 
 	private JLabel spriteImageLabel = new JLabel("Image");
 	// private JComboBox imagesList = new JComboBox(imageStrings);
-	private JList imagesList = new JList();
+	private JList imagesList = new JList(imageStrings);
 
 //	private JLabel spriteXPositionLabel = new JLabel("x-position");
 //	private JTextField spriteXPosition = new JTextField(10);
@@ -126,9 +123,11 @@ public class GameMakerView extends JFrame {
 	private JTextArea activityTextArea = new JTextArea(5, 20);
 
 	private JLabel backgroundImage = new JLabel();
+	
 
 	public GameMakerView() {
 
+		//populateImageData();
 		// for collision-disappear
 		setDisplayFlagView(true);
 
@@ -586,5 +585,7 @@ class DropBoxHandler extends TransferHandler {
 			return true;
 		}
 	}
+	
+	
 }
 
