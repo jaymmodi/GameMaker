@@ -7,23 +7,39 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.TransferHandler;
+import javax.swing.TransferHandler.TransferSupport;
 
 import main.Constants;
+import model.SpriteModel;
 //import main.TimerObservable;
 import observer.GameBoardPanel;
 import observer.GameClockPanel;
@@ -47,39 +63,37 @@ public class GameMakerView extends JFrame {
 	private GameBoardPanel gameBoardPanel = new GameBoardPanel();
 	private GameClockPanel clockPanel = new GameClockPanel();
 	
+	public static final DataFlavor DATA_FLAVOUR = new DataFlavor(ImageIcon.class, "Sprite");
+	
+	private Image selectedImage;
+
 	private boolean displayFlagView;
 
-	private Object[] imageStrings = new Object[] {
-			new ImageIcon(getClass().getClassLoader().getResource(
-					"img/fire_ball.gif")),
-			new ImageIcon(getClass().getClassLoader().getResource(
-					"img/paddle.gif")),
-			new ImageIcon(getClass().getClassLoader().getResource(
-					"img/tile.gif")) };
+	private Object[] imageStrings = new Object[] { new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/paddle.gif")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/tile.gif")) };
 
-	private String[] eventStrings = new String[] { "None", "KeyboardPress",
-			"TimeChange", "Collision" };
+	private String[] eventStrings = new String[] { "None", "KeyboardPress", "TimeChange", "Collision" };
 
-	private String[] backgroundImages = new String[] { "None", "Background 1",
-			"Background 2" };
+	private String[] backgroundImages = new String[] { "None", "Background 1", "Background 2" };
 
 	public String[] getBackgroundImages() {
 		return backgroundImages;
 	}
 
-	
-
 	private JLabel spriteNameLabel = new JLabel("Sprite Name");
 	private JTextField spriteName = new JTextField(10);
 
 	private JLabel spriteImageLabel = new JLabel("Image");
-	private JComboBox imagesList = new JComboBox(imageStrings);
+	// private JComboBox imagesList = new JComboBox(imageStrings);
+	private JList<ImageIcon> imagesList = new JList(imageStrings);
 
-	private JLabel spriteXPositionLabel = new JLabel("x-position");
-	private JTextField spriteXPosition = new JTextField(10);
+//	private JLabel spriteXPositionLabel = new JLabel("x-position");
+//	private JTextField spriteXPosition = new JTextField(10);
 
-	private JLabel spriteYPositionLabel = new JLabel("y-position");
-	private JTextField spriteYPosition = new JTextField(10);
+//	private JLabel spriteYPositionLabel = new JLabel("y-position");
+	private int spriteXPosition;
+	private int spriteYPosition;
 
 	private JButton createSpriteButton = new JButton("Create");
 	private JButton deleteSpriteButton = new JButton("Delete");
@@ -114,16 +128,16 @@ public class GameMakerView extends JFrame {
 	private JLabel backgroundImage = new JLabel();
 
 	public GameMakerView() {
-       
-		//for collision-disappear
+
+		// for collision-disappear
 		setDisplayFlagView(true);
-		
+
 		this.setLayout(new BorderLayout());
 
 		setSize(Constants.FRAME_WIDTH.getValue(), Constants.FRAME_HEIGHT.getValue());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-
+		
 		userInputpanel.setLayout(new GridLayout(4, 0));
 
 		GridBagLayout layout = new GridBagLayout();
@@ -150,9 +164,20 @@ public class GameMakerView extends JFrame {
 
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 2;
+		imagesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		imagesList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		imagesList.setVisibleRowCount(1);
+		imagesList.setTransferHandler(new DropBoxHandler(imagesList));
+		imagesList.setDropMode(DropMode.USE_SELECTION);
+		imagesList.setDragEnabled(true);
+		JScrollPane scroll = new JScrollPane(imagesList);
+		scroll.setPreferredSize(new Dimension(300, 20));
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setVisible(true);
+		
 		spritePanel.add(imagesList, gridBagConstraints);
 
-		gridBagConstraints.gridx = 0;
+		/*gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 4;
 		spritePanel.add(spriteXPositionLabel, gridBagConstraints);
 
@@ -166,7 +191,7 @@ public class GameMakerView extends JFrame {
 
 		gridBagConstraints.gridx = 5;
 		gridBagConstraints.gridy = 4;
-		spritePanel.add(spriteYPosition, gridBagConstraints);
+		spritePanel.add(spriteYPosition, gridBagConstraints);*/
 
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 10;
@@ -200,7 +225,7 @@ public class GameMakerView extends JFrame {
 
 		gridBagConstraints3.gridx = 1;
 		gridBagConstraints3.gridy = 2;
-		featurePanel.add(clockCheckBox, gridBagConstraints3);	
+		featurePanel.add(clockCheckBox, gridBagConstraints3);
 
 		eventPanel.setLayout(layout);
 
@@ -248,8 +273,7 @@ public class GameMakerView extends JFrame {
 		GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 		gridBagConstraints2.insets = new Insets(5, 0, 5, 0);
 
-		buttonPanel.setBorder(BorderFactory
-				.createTitledBorder("Activity Panel"));
+		buttonPanel.setBorder(BorderFactory.createTitledBorder("Activity Panel"));
 
 		gridBagConstraints2.gridx = 0;
 		gridBagConstraints2.gridy = 0;
@@ -289,16 +313,15 @@ public class GameMakerView extends JFrame {
 
 		this.add(gamePanel, BorderLayout.EAST);
 
-		gameBoardPanel.setBackgroundImage(new ImageIcon(getClass()
-				.getClassLoader().getResource("img/default_background.png")));
+		gameBoardPanel.setBackgroundImage(new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
 
 	}
 
 	public void clearUserInput() {
 		spriteName.setText(null);
 		imagesList.setSelectedIndex(0);
-		spriteXPosition.setText(null);
-		spriteYPosition.setText(null);
+//		spriteXPosition.setText(null);
+//		spriteYPosition.setText(null);
 		eventsList.setSelectedIndex(0);
 		eventSubTypeList.clearSelection();
 		actionList.clearSelection();
@@ -310,12 +333,20 @@ public class GameMakerView extends JFrame {
 		return spriteName.getText();
 	}
 
-	public String getSpriteXPosition() {
-		return spriteXPosition.getText();
+	public int getSpriteXPosition() {
+		return spriteXPosition;
 	}
 
-	public String getSpriteYPosition() {
-		return spriteYPosition.getText();
+	public void setSpriteXPosition(int spriteXPosition) {
+		this.spriteXPosition = spriteXPosition;
+	}
+
+	public int getSpriteYPosition() {
+		return spriteYPosition;
+	}
+
+	public void setSpriteYPosition(int spriteYPosition) {
+		this.spriteYPosition = spriteYPosition;
 	}
 
 	public JComboBox getEventsList() {
@@ -344,6 +375,14 @@ public class GameMakerView extends JFrame {
 		return actionList;
 	}
 
+	public Image getSelectedImage() {
+		return selectedImage;
+	}
+
+	public void setSelectedImage(Image selectedImage) {
+		this.selectedImage = selectedImage;
+	}
+
 	public String getActionSelected() {
 		String actionSelected;
 		actionSelected = actionList.getSelectedValue().toString();
@@ -351,12 +390,10 @@ public class GameMakerView extends JFrame {
 	}
 
 	public Image getImageSelected() throws IOException {
-		Image imageSelected = ((ImageIcon) imagesList.getSelectedItem())
-				.getImage();
-		
+		Image imageSelected = ((ImageIcon) imagesList.getSelectedValue()).getImage();
 		return imageSelected;
 	}
-	
+
 	public int getImageSelectedIndex() throws IOException {
 		return imagesList.getSelectedIndex();
 	}
@@ -432,15 +469,14 @@ public class GameMakerView extends JFrame {
 	public void setClockPanel(GameClockPanel clockPanel) {
 		this.clockPanel = clockPanel;
 	}
-	
+
 	public boolean isDisplayFlagView() {
 		return displayFlagView;
 	}
 
 	public void setDisplayFlagView(boolean displayFlagView) {
 		this.displayFlagView = displayFlagView;
-	}	
-
+	}
 
 	/*
 	 * ACTION LISTENERS
@@ -450,8 +486,8 @@ public class GameMakerView extends JFrame {
 		associateButton.addActionListener(ae);
 	}
 
-	public void addCreateListener(ActionListener ae) {
-		createSpriteButton.addActionListener(ae);
+	public void addCreateListener(DropTargetListener de) {
+		
 	}
 
 	public void addEventsListener(ActionListener ae) {
@@ -477,13 +513,15 @@ public class GameMakerView extends JFrame {
 	public void addPlayGameListener(ActionListener ae) {
 		playGameButton.addActionListener(ae);
 	}
-	
-	public void addDeleteListener(ActionListener ae){
+
+	public void addDeleteListener(ActionListener ae) {
 		deleteSpriteButton.addActionListener(ae);
 	}
+
 	public void setBackgroundImages(String[] backgroundImages) {
 		this.backgroundImages = backgroundImages;
 	}
+
 	public JComboBox getBackgroundList() {
 		return backgroundList;
 	}
@@ -491,7 +529,7 @@ public class GameMakerView extends JFrame {
 	public void setBackgroundList(JComboBox backgroundList) {
 		this.backgroundList = backgroundList;
 	}
-	
+
 	public JButton getLoadSpriteButton() {
 		return loadSpriteButton;
 	}
@@ -499,5 +537,54 @@ public class GameMakerView extends JFrame {
 	public void setLoadSpriteButton(JButton loadSpriteButton) {
 		this.loadSpriteButton = loadSpriteButton;
 	}
-	
+
 }
+
+class DropBoxHandler extends TransferHandler {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final JList imagesList;
+
+	DropBoxHandler(JList imagesList) {
+		this.imagesList = imagesList;
+	}
+
+	@Override
+	protected Transferable createTransferable(JComponent c) {
+
+		return new Transferable() {
+			public DataFlavor[] getTransferDataFlavors() {
+				return new DataFlavor[] { GameMakerView.DATA_FLAVOUR };
+			}
+
+			public boolean isDataFlavorSupported(DataFlavor flavor) {
+				return flavor.equals(GameMakerView.DATA_FLAVOUR);
+			}
+
+			public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+				return imagesList.getSelectedValue();
+			}
+		};
+	}
+	@Override
+	public int getSourceActions(JComponent c) {
+		return TransferHandler.COPY;
+	}
+
+	public boolean canImport(TransferSupport support) {
+		if (!support.isDataFlavorSupported(GameMakerView.DATA_FLAVOUR)) {
+			return false;
+		}
+
+		JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+		if (dl.getIndex() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+}
+

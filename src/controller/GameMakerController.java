@@ -2,6 +2,12 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -15,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
+import observer.GameBoardPanel;
 import model.SpriteModel;
 import model.TimerObservable;
 import view.GameMakerView;
@@ -47,7 +54,7 @@ public class GameMakerController {
 
 		this.theView = theView;
 		this.theView.addAssociateListener(new AssociateListener());
-		this.theView.addCreateListener(new CreateSpriteListener());
+		this.theView.addCreateListener(new CreateSpriteListener(theView, theView.getGameBoardPanel()));
 		this.theView.addDeleteListener(new DeleteSpriteListener());
 		this.theView.addEventsListener(new EventsListener());
 		this.theView.addSaveSpriteListener(new SaveSpriteListener());
@@ -77,8 +84,7 @@ public class GameMakerController {
 		imagePathMap.put(2, "img/tile.gif");
 	}
 
-	public void populateBackgroundImageMap(
-			HashMap<Integer, String> backgroudImagePathMap) {
+	public void populateBackgroundImageMap(HashMap<Integer, String> backgroudImagePathMap) {
 
 		backgroudImagePathMap.put(0, "img/default_background.png");
 		backgroudImagePathMap.put(1, "img/background1.png");
@@ -92,55 +98,13 @@ public class GameMakerController {
 		}
 	}
 
-	class CreateSpriteListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			try {
-				if (theView.getSpriteName().isEmpty())
-					JOptionPane.showMessageDialog(null,
-							"Please enter sprite name!!");
-				else if (spriteNames.contains(theView.getSpriteName())
-						&& !spriteNames.isEmpty())
-					JOptionPane.showMessageDialog(
-							null,
-							"Sprite name already taken!! Try "
-									+ theView.getSpriteName() + "1 or "
-									+ theView.getSpriteName() + "a");
-				else if (theView.getSpriteXPosition().isEmpty()
-						|| !Pattern.matches("^[0-9]*$",
-								theView.getSpriteXPosition()))
-					JOptionPane.showMessageDialog(null,
-							"Enter valid value for x-position of sprite!!");
-				else if (theView.getSpriteYPosition().isEmpty()
-						|| !Pattern.matches("^[0-9]*$",
-								theView.getSpriteYPosition()))
-					JOptionPane.showMessageDialog(null,
-							"Enter valid value for y-position of sprite!!");
-				else {
-					spriteNames.add(theView.getSpriteName());
-					eventActionDetails = new HashMap<String, ArrayList<String>>();
-					sprite = new SpriteModel(theView.getSpriteName(),
-							Integer.parseInt(theView.getSpriteXPosition()),
-							Integer.parseInt(theView.getSpriteYPosition()),
-							theView.getImageSelected(),
-							theView.getImageSelectedIndex(),
-							theView.isDisplayFlagView(), eventActionDetails);
-
-					sprite.setRectangleTest(Integer.parseInt(theView.getSpriteXPosition()),
-									Integer.parseInt(theView.getSpriteYPosition()),theView.getImageSelected().getWidth(null),theView.getImageSelected().getHeight(null));
-					theView.getGameBoardPanel().addSprite(sprite);
-
-					theView.getGameBoardPanel().repaint();
-					theView.getAssociateButton().setEnabled(true);
-					theView.getEventsList().setEnabled(true);
-				}
-			} catch (Exception ex) {
-				theView.displayErrorMessage(ex.toString());
-			}
-
-		}
-	}
+//	class CreateSpriteListener implements ActionListener {
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//
+//		}
+//	}
 
 	class AssociateListener implements ActionListener {
 
@@ -150,31 +114,23 @@ public class GameMakerController {
 			ArrayList<String> actionList = new ArrayList<String>();
 			eventActionDetails = sprite.getEventActionDetails();
 			try {
-				if (theView.getEventsList().getSelectedItem().toString()
-						.equals("None"))
-					JOptionPane.showMessageDialog(null,
-							"Select event from the event list!!");
+				if (theView.getEventsList().getSelectedItem().toString().equals("None"))
+					JOptionPane.showMessageDialog(null, "Select event from the event list!!");
 				else if (theView.getActionList().isSelectionEmpty())
-					JOptionPane.showMessageDialog(null,
-							"Select action from the action list!!");
+					JOptionPane.showMessageDialog(null, "Select action from the action list!!");
 				if (flag == 0) {
-					theView.getActivityTextArea().append(
-							theView.getSpriteName());
+					theView.getActivityTextArea().append(theView.getSpriteName());
 					flag = 1;
 				}
 				if (theView.getEventSubTypeList().isSelectionEmpty()) {
-					theView.getActivityTextArea().append(
-							"\n" + theView.getEventSelected() + "->"
-									+ theView.getActionSelected());
+					theView.getActivityTextArea().append("\n" + theView.getEventSelected() + "->" + theView.getActionSelected());
 					eventName = theView.getEventSelected();
 				} else {
 					theView.getActivityTextArea().append(
-							"\n" + theView.getEventSelected() + "->"
-									+ theView.getEventSubTypeSelected() + "->"
+							"\n" + theView.getEventSelected() + "->" + theView.getEventSubTypeSelected() + "->"
 									+ theView.getActionSelected());
 
-					eventName = theView.getEventSelected() + "-"
-							+ theView.getEventSubTypeSelected();
+					eventName = theView.getEventSelected() + "-" + theView.getEventSubTypeSelected();
 				}
 
 				if (eventActionDetails.containsKey(eventName))
@@ -186,18 +142,15 @@ public class GameMakerController {
 				sprite.setEventActionDetails(eventActionDetails);
 
 				for (Events event : Events.values()) {
-					if (event.name().equals(
-							theView.getEventSelected().toUpperCase())) {
+					if (event.name().equals(theView.getEventSelected().toUpperCase())) {
 						associateEvent = new AssociateEvent(event.getValue());
 						associateEvent.attachEvent(sprite);
 					}
 				}
 
 				if (!(theView.getEventSubTypeList().isSelectionEmpty())) {
-					for (SpriteModel sprite1 : theView.getGameBoardPanel()
-							.getSpriteList()) {
-						if (sprite1.getName().equalsIgnoreCase(
-								theView.getEventSubTypeSelected()))
+					for (SpriteModel sprite1 : theView.getGameBoardPanel().getSpriteList()) {
+						if (sprite1.getName().equalsIgnoreCase(theView.getEventSubTypeSelected()))
 							associateEvent.attachEvent(sprite1);
 					}
 				}
@@ -220,8 +173,7 @@ public class GameMakerController {
 		public void actionPerformed(ActionEvent e) {
 
 			try {
-				theView.getGameBoardPanel().removeSprite(
-						theView.getSpriteName());
+				theView.getGameBoardPanel().removeSprite(theView.getSpriteName());
 				theView.clearUserInput();
 				spriteNames.remove(theView.getSpriteName());
 				theView.getGameBoardPanel().repaint();
@@ -239,18 +191,14 @@ public class GameMakerController {
 				JCheckBox cb = (JCheckBox) event.getSource();
 				if (cb.isSelected()) {
 					saveableObject.setTimerCheckIndicator(true);
-					theView.getGameBoardPanel().setPreferredSize(
-							new Dimension(470, 890));
-					theView.getGamePanel().add(theView.getGameBoardPanel(),
-							BorderLayout.NORTH);
-					theView.getGamePanel().add(theView.getClockPanel(),
-							BorderLayout.SOUTH);
+					theView.getGameBoardPanel().setPreferredSize(new Dimension(470, 890));
+					theView.getGamePanel().add(theView.getGameBoardPanel(), BorderLayout.NORTH);
+					theView.getGamePanel().add(theView.getClockPanel(), BorderLayout.SOUTH);
 					theView.getGamePanel().validate();
 				} else {
 					saveableObject.setTimerCheckIndicator(false);
 					theView.getGamePanel().remove(theView.getClockPanel());
-					theView.getGameBoardPanel().setPreferredSize(
-							new Dimension(470, 940));
+					theView.getGameBoardPanel().setPreferredSize(new Dimension(470, 940));
 					theView.getGamePanel().add(theView.getGameBoardPanel());
 					theView.validate();
 				}
@@ -271,23 +219,15 @@ public class GameMakerController {
 			try {
 				if (theView.getBackgroundSelected().equals("Background 1")) {
 					theView.getGameBoardPanel().setBackgroundImage(
-							new ImageIcon(getClass().getClassLoader()
-									.getResource("img/background1.png")));
+							new ImageIcon(getClass().getClassLoader().getResource("img/background1.png")));
 					saveableObject.setBackgroundImageIndicator(1);
-				} else if (theView.getBackgroundSelected().equals(
-						"Background 2")) {
+				} else if (theView.getBackgroundSelected().equals("Background 2")) {
 					theView.getGameBoardPanel().setBackgroundImage(
-							new ImageIcon(getClass().getClassLoader()
-									.getResource("img/background2.png")));
+							new ImageIcon(getClass().getClassLoader().getResource("img/background2.png")));
 					saveableObject.setBackgroundImageIndicator(2);
 				} else {
-					theView.getGameBoardPanel()
-							.setBackgroundImage(
-									new ImageIcon(
-											getClass()
-													.getClassLoader()
-													.getResource(
-															"img/default_background.png")));
+					theView.getGameBoardPanel().setBackgroundImage(
+							new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
 					saveableObject.setBackgroundImageIndicator(0);
 				}
 				theView.getGamePanel().add(theView.getGameBoardPanel());
@@ -308,18 +248,14 @@ public class GameMakerController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 
-				String[] collisionEventSubType = spriteNames
-						.toArray(new String[spriteNames.size()]);
+				String[] collisionEventSubType = spriteNames.toArray(new String[spriteNames.size()]);
 
-				String[] collisionAction = new String[] { "Disappear",
-						"ChangeDirection", "Sound" };
-				String[] keyboardAction = new String[] { "LeftMove",
-						"RightMove" };
+				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound" };
+				String[] keyboardAction = new String[] { "LeftMove", "RightMove" };
 				String[] timeChangeAction = new String[] { "Move" };
 
 				if (theView.getEventSelected() == "Collision") {
-					theView.getEventSubTypeList().setListData(
-							collisionEventSubType);
+					theView.getEventSubTypeList().setListData(collisionEventSubType);
 					theView.getActionList().setListData(collisionAction);
 				} else if (theView.getEventSelected() == "KeyboardPress") {
 					theView.getEventSubTypeList().setListData(new Object[0]);
@@ -348,8 +284,7 @@ public class GameMakerController {
 				if (theView.getGameBoardPanel().getSpriteList().isEmpty())
 					JOptionPane.showMessageDialog(null, "Nothing to save!!");
 				else {
-					saveableObject.setSpriteList(theView.getGameBoardPanel()
-							.getSpriteList());
+					saveableObject.setSpriteList(theView.getGameBoardPanel().getSpriteList());
 					saveGameMakerState.setSaveableObjects(saveableObject);
 
 					saveGameMakerState.save();
@@ -364,7 +299,7 @@ public class GameMakerController {
 		}
 
 	}
-	
+
 	class LoadSpriteLister implements ActionListener {
 
 		@Override
@@ -373,8 +308,7 @@ public class GameMakerController {
 
 				SaveableObject loadableObject = new SaveableObject();
 				loadableObject = loadGameMakerState.load();
-				ArrayList<SpriteModel> loadedSpriteList = loadableObject
-						.getSpriteList();
+				ArrayList<SpriteModel> loadedSpriteList = loadableObject.getSpriteList();
 
 				spriteNames = new ArrayList<String>();
 
@@ -387,8 +321,7 @@ public class GameMakerController {
 				}
 
 				setGameMakerTimerCheck(loadableObject);
-				int backgroundGameIndex = loadableObject
-						.getBackgroundImageIndicator();
+				int backgroundGameIndex = loadableObject.getBackgroundImageIndicator();
 				setGamePlayerBackgroundImage(backgroundGameIndex);
 				setGameMakerBackgroundText(backgroundGameIndex);
 
@@ -412,18 +345,16 @@ public class GameMakerController {
 			timerObs = new TimerObservable();
 			theView.getGameBoardPanel().requestFocusInWindow();
 
-			StartCommand startCmd;	
+			StartCommand startCmd;
 
 			timerObs.addObserver((Observer) theView.getGameBoardPanel());
 			timerObs.addObserver((Observer) theView.getClockPanel());
-
 
 			startCmd = new StartCommand(timerObs);
 			setTheCommand(startCmd);
 			press();
 			theView.getPlayGameButton().setEnabled(false);
 			theView.getLoadSpriteButton().setEnabled(false);
-			
 
 		}
 	}
@@ -443,6 +374,81 @@ public class GameMakerController {
 		}
 	}
 
+	class CreateSpriteListener extends DropTargetAdapter {
+
+		private DropTarget dropTarget;
+		private GameMakerView gameMakerView;
+		private GameBoardPanel gameBoardPanel;
+
+		// drop target listener for drag and drop functionality
+		public CreateSpriteListener(GameMakerView gameMakerView, GameBoardPanel gameBoardPanel) {
+			this.gameMakerView = gameMakerView;
+			// this.gameData = gameData;
+			this.gameBoardPanel = gameBoardPanel;
+
+			setDropTarget(new DropTarget(gameBoardPanel, DnDConstants.ACTION_COPY, this, true, null));
+		}
+
+		@Override
+		public void drop(DropTargetDropEvent event) {
+			try {
+
+				Transferable tr = event.getTransferable();
+
+				ImageIcon icon = (ImageIcon) tr.getTransferData(GameMakerView.DATA_FLAVOUR);
+
+				if (event.isDataFlavorSupported(GameMakerView.DATA_FLAVOUR)) {
+					gameMakerView.setSelectedImage(icon.getImage());
+					gameMakerView.setSpriteXPosition(event.getLocation().x);
+					gameMakerView.setSpriteYPosition(event.getLocation().y);
+					event.acceptDrop(DnDConstants.ACTION_COPY);
+					event.dropComplete(true);
+					gameMakerView.repaint();
+					gameBoardPanel.repaint();
+			
+				}
+				event.rejectDrop();
+			} catch (Exception e) {
+				e.printStackTrace();
+				event.rejectDrop();
+			}
+			
+			try {
+				if (theView.getSpriteName().isEmpty())
+					JOptionPane.showMessageDialog(null, "Please enter sprite name!!");
+				else if (spriteNames.contains(theView.getSpriteName()) && !spriteNames.isEmpty())
+					JOptionPane.showMessageDialog(null, "Sprite name already taken!! Try " + theView.getSpriteName() + "1 or "
+							+ theView.getSpriteName() + "a");
+				else {
+					spriteNames.add(theView.getSpriteName());
+					eventActionDetails = new HashMap<String, ArrayList<String>>();
+					sprite = new SpriteModel(theView.getSpriteName(), theView.getSpriteXPosition(), theView.getSpriteYPosition(),
+							theView.getSelectedImage(), theView.getImageSelectedIndex(), theView.isDisplayFlagView(),
+							eventActionDetails);
+					// System.out.println(theView.getSelectedImage().getSource());
+
+					sprite.setRectangleTest(theView.getSpriteXPosition(), theView.getSpriteYPosition(), theView
+							.getImageSelected().getWidth(null), theView.getImageSelected().getHeight(null));
+					theView.getGameBoardPanel().addSprite(sprite);
+
+					theView.getGameBoardPanel().repaint();
+					theView.getAssociateButton().setEnabled(true);
+					theView.getEventsList().setEnabled(true);
+				}
+			} catch (Exception ex) {
+				theView.displayErrorMessage(ex.toString());
+			}
+		}
+
+		public DropTarget getDropTarget() {
+			return dropTarget;
+		}
+
+		public void setDropTarget(DropTarget dropTarget) {
+			this.dropTarget = dropTarget;
+		}
+	}
+
 	private void setGameMakerTimerCheck(SaveableObject loadableObject) {
 
 		if (loadableObject.isTimerCheckIndicator())
@@ -453,16 +459,13 @@ public class GameMakerController {
 	private void setGamePlayerBackgroundImage(int backGroundImageIndex) {
 
 		String getImagePath = backgroudImagePathMap.get(backGroundImageIndex);
-		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(
-				getImagePath));
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(getImagePath));
 		theView.getGameBoardPanel().setBackgroundImage(icon);
 	}
 
-	//add the events list back after loading
-	public void addSpriteAsEventListener(SpriteModel sprite,
-			ArrayList<SpriteModel> spriteList) {
-		HashMap<String, ArrayList<String>> hashMap = sprite
-				.getEventActionDetails();
+	// add the events list back after loading
+	public void addSpriteAsEventListener(SpriteModel sprite, ArrayList<SpriteModel> spriteList) {
+		HashMap<String, ArrayList<String>> hashMap = sprite.getEventActionDetails();
 
 		for (Events event : Events.values()) {
 			for (String eventName : hashMap.keySet()) {
@@ -474,8 +477,7 @@ public class GameMakerController {
 
 				if (eventNameSplit.length > 1) {
 					for (SpriteModel sprite2 : spriteList) {
-						if (eventNameSplit[1].equalsIgnoreCase(sprite2
-								.getName()))
+						if (eventNameSplit[1].equalsIgnoreCase(sprite2.getName()))
 							associateEvent.attachEvent(sprite2);
 					}
 				}
@@ -483,25 +485,23 @@ public class GameMakerController {
 		}
 	}
 
-	//copy back the images to the loaded sprites
-	public ArrayList<SpriteModel> processAfterLoad(
-			ArrayList<SpriteModel> loadedSpriteList) {
+	// copy back the images to the loaded sprites
+	public ArrayList<SpriteModel> processAfterLoad(ArrayList<SpriteModel> loadedSpriteList) {
 
 		for (SpriteModel sprite : loadedSpriteList) {
 			int imageIndex = sprite.getImagePathIndicator();
 			String imagePath = spriteImagePathMap.get(imageIndex);
-			ImageIcon icon = new ImageIcon(getClass().getClassLoader()
-					.getResource(imagePath));
+			ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(imagePath));
 			sprite.setImage(icon.getImage());
 		}
 
 		return loadedSpriteList;
 	}
-	
-	//set the Background text after Load
+
+	// set the Background text after Load
 	public void setGameMakerBackgroundText(int backgroundGameIndex) {
 		theView.getBackgroundList().setSelectedIndex(backgroundGameIndex);
-		
+
 	}
 
 	public Command getTheCommand() {

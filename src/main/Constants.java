@@ -16,7 +16,8 @@ public enum Constants {
 	GAME_BOARD_PANEL_WIDTH(470),
 	GAME_BOARD_PANEL_HEIGHT(890),	
 	LEFT_MARGIN(0),
-	RIGHT_MARGIN(530);
+	RIGHT_MARGIN(530),
+	SPRITE_SELECTOR_SCROLL_WIDTH(300);
 	
 	private int value;
 	private Constants(int value)
