@@ -1,11 +1,14 @@
 package event;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import model.SpriteModel;
 import action.MoveSpriteLeft;
 import action.MoveSpriteRight;
+import action.MoveSpriteUp;
+import action.MoveSpriteDown;
 
 public class KeyboardPress implements Event {
 
@@ -49,6 +52,18 @@ public class KeyboardPress implements Event {
 					MoveSpriteRight moveSpriteRight = new MoveSpriteRight();
 					moveSpriteRight.performAction(sprite);
 				}
+				
+				//When Keyboard Up arrow is pressed
+				if (eventAssociator.equalsIgnoreCase("Up Key")) {
+					MoveSpriteUp moveSpriteUp = new MoveSpriteUp();
+					moveSpriteUp.performAction(sprite);
+				} 
+
+				//When Keyboard Down arrow is pressed
+				if (eventAssociator.equalsIgnoreCase("Down Key")) {
+					MoveSpriteDown moveSpriteDown = new MoveSpriteDown();
+					moveSpriteDown.performAction(sprite);
+				} 
 			}
 		}
 	}

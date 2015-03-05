@@ -10,9 +10,9 @@ package action;
  *
  */
 public enum Actions {
-	MOVE(new MoveSprite()), LEFTMOVE(new MoveSpriteLeft()), RIGHTMOVE(
-			new MoveSpriteRight()), DISAPPEAR(new Disappear()), CHANGEDIRECTION(
-			new ChangeDirection()), SOUND(new PlaySound());
+	MOVE(new MoveSprite()), LEFTMOVE(new MoveSpriteLeft()), RIGHTMOVE(new MoveSpriteRight()), 
+	DISAPPEAR(new Disappear()), CHANGEDIRECTION(new ChangeDirection()), SOUND(new PlaySound()), 
+	UPMOVE(new MoveSpriteUp()), BOTTOMMOVE(new MoveSpriteDown());
 
 	private Action instance;
 

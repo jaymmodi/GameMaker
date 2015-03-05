@@ -10,8 +10,8 @@ public class MoveSpriteDown implements Action {
 	}
 	
 	public void performAction(SpriteModel sprite)
-	{	//TODO: check the values for the following version	
-		if((sprite.getYPosition() - 14) > Constants.LEFT_MARGIN.getValue())
+	{		
+		if((sprite.getYPosition() + 14) < Constants.GAME_BOARD_PANEL_HEIGHT.getValue())
 			sprite.setYPosition(sprite.getYPosition() + 14);
 	}
 
