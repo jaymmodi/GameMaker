@@ -43,24 +43,24 @@ public class KeyboardPress implements Event {
 					.getEventActionDetails();
 			if (hm.containsKey(event)) {
 				//When Keyboard Left arrow is pressed
-				if (eventAssociator.equalsIgnoreCase("Left Key")) {
+				if (eventAssociator.equalsIgnoreCase("Left Key") && (hm.get(event).contains("LeftMove"))) {
 					MoveSpriteLeft moveSpriteLeft = new MoveSpriteLeft();
 					moveSpriteLeft.performAction(sprite);
 				} 
 				//When the Keyboard Right arrow is pressed
-				else if (eventAssociator.equalsIgnoreCase("Right Key")){
+				else if (eventAssociator.equalsIgnoreCase("Right Key") && (hm.get(event).contains("RightMove"))){
 					MoveSpriteRight moveSpriteRight = new MoveSpriteRight();
 					moveSpriteRight.performAction(sprite);
 				}
 				
 				//When Keyboard Up arrow is pressed
-				if (eventAssociator.equalsIgnoreCase("Up Key")) {
+				if (eventAssociator.equalsIgnoreCase("Up Key") && (hm.get(event).contains("UpMove"))) {
 					MoveSpriteUp moveSpriteUp = new MoveSpriteUp();
 					moveSpriteUp.performAction(sprite);
 				} 
 
 				//When Keyboard Down arrow is pressed
-				if (eventAssociator.equalsIgnoreCase("Down Key")) {
+				if (eventAssociator.equalsIgnoreCase("Down Key") && (hm.get(event).contains("DownMove"))) {
 					MoveSpriteDown moveSpriteDown = new MoveSpriteDown();
 					moveSpriteDown.performAction(sprite);
 				} 
