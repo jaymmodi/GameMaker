@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import controller.Utility;
+import event.KeyboardPress;
 import model.SpriteModel;
 
 /**
@@ -69,31 +70,41 @@ public class GameBoardPanel extends JPanel implements Observer {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
-		g.drawImage(this.getBackgroundImage().getImage(), 0, 0,
-				this.getWidth(), this.getHeight(), this);
-		
-		//When the Game is lost
-		if((Utility.getInstance().getGameFlag() == 2)) {
+
+		g.drawImage(this.getBackgroundImage().getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+
+		// When the Game is lost
+		if ((Utility.getInstance().getGameFlag() == 2)) {
 			Font fontOfDisplayString = new Font("Dialog", Font.BOLD, 24);
 			g.setFont(fontOfDisplayString);
 			g.drawString("YOU LOST !! GAME OVER !!", 100, 200);
 		}
-		
-		//When the Game is Won
-		else if((Utility.getInstance().getGameFlag() == 3)) {
+
+		// When the Game is Won
+		else if ((Utility.getInstance().getGameFlag() == 3)) {
 			Font fontOfDisplayString = new Font("Dialog", Font.BOLD, 24);
 			g.setFont(fontOfDisplayString);
 			g.drawString("YOU WON !! GAME OVER", 100, 200);
 		}
-		
-		//When the Game continues
-		else
-		{
+
+		// When the Game continues
+		else {
 			for (SpriteModel sprite : spriteList) {
 				if (!(sprite.isDestroyFlagEnabled())) {
-					g.drawImage(sprite.getImage(), sprite.getXPosition(),
-						sprite.getYPosition(), this);
+					g.drawImage(sprite.getImage(), sprite.getXPosition(), sprite.getYPosition(), this);
+				}
+
+				if (sprite.getEventActionDetails().containsKey("KeyboardPress")) {
+					for (String action : sprite.getEventActionDetails().get("KeyboardPress")) {
+						if (action.contains("Fire")) {
+							if (!KeyboardPress.getInstance().getFireAction().getFireActionSprites().isEmpty()) {
+								for (SpriteModel tempSprite : KeyboardPress.getInstance().getFireAction().getFireActionSprites()) {
+									KeyboardPress.getInstance().getFireAction().performAction();
+									g.drawImage(tempSprite.getImage(), tempSprite.getXPosition(), tempSprite.getYPosition(), this);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -103,7 +114,6 @@ public class GameBoardPanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		repaint();
-
 	}
 
 }

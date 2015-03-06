@@ -258,7 +258,7 @@ public class GameMakerController {
 				String[] collisionEventSubType = spriteNames.toArray(new String[spriteNames.size()]);
 
 				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound" };
-				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove" };
+				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove", "Fire"};
 				String[] timeChangeAction = new String[] { "Move", "AutoMoveLeft", "AutoMoveRight",
 						 "AutoMoveUp" , "AutoMoveDown"};
 
@@ -383,6 +383,9 @@ public class GameMakerController {
 				KeyboardPress.getInstance().associateAction("Up Key");
 			else if (e.getKeyCode() == KeyEvent.VK_DOWN)
 				KeyboardPress.getInstance().associateAction("Down Key");
+			else if (e.getKeyCode() == KeyEvent.VK_SPACE)
+				KeyboardPress.getInstance().associateAction("Space Key");
+
 		}
 	}
 
