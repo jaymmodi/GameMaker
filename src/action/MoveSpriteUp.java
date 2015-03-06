@@ -14,9 +14,10 @@ public class MoveSpriteUp implements Action {
 													// for the following version
 		if ((sprite.getYPosition() - 14) > Constants.LEFT_MARGIN.getValue()) {
 			sprite.setYPosition(sprite.getYPosition() - 14);
-			sprite.setRectangleTest(sprite.getXPosition(),
-					sprite.getYPosition(), sprite.getImage().getWidth(null),
-					sprite.getImage().getHeight(null));
+			sprite.setRectangleTest(sprite.getXPosition(), sprite
+					.getYPosition(),
+					(int) sprite.getRectangleTest().getWidth(), (int) sprite
+							.getRectangleTest().getHeight());
 		}
 	}
 

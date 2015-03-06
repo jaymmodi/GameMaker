@@ -14,7 +14,10 @@ public class AutoMoveUp implements Action{
 		if((sprite.getYPosition() - 2) > Constants.LEFT_MARGIN.getValue()){
 			sprite.setYPosition(sprite.getYPosition() - 2);
 			sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
-			}else{
+			sprite.setRectangleTest(sprite.getXPosition(),
+					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
+					(int)sprite.getRectangleTest().getHeight());	
+		}else{
 				sprite.setYPosition(Constants.GAME_BOARD_PANEL_HEIGHT.getValue());
 			}
 	}

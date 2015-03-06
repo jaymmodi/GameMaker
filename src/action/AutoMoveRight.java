@@ -9,8 +9,8 @@ public class AutoMoveRight implements Action {
 		if ((sprite.getXPosition() + 2) < Constants.RIGHT_MARGIN.getValue() - 56) {
 			sprite.setXPosition(sprite.getXPosition() + 2);
 			sprite.setRectangleTest(sprite.getXPosition(),
-					sprite.getYPosition(), sprite.getImage().getWidth(null),
-					sprite.getImage().getHeight(null));
+					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
+					(int)sprite.getRectangleTest().getHeight());
 		} else
 			sprite.setXPosition(Constants.LEFT_MARGIN.getValue());
 	}

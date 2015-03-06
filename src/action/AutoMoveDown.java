@@ -9,9 +9,11 @@ public class AutoMoveDown implements Action {
 		//TODO: check the values for the following version	
 			if((sprite.getYPosition() + 2) < Constants.GAME_BOARD_PANEL_HEIGHT.getValue()){
 				sprite.setYPosition(sprite.getYPosition() + 2);
-				sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
+				sprite.setRectangleTest(sprite.getXPosition(),
+						sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
+						(int)sprite.getRectangleTest().getHeight());
 			}else{
-				sprite.setYPosition(0);
+				sprite.setYPosition(0);  
 			}
 	}
 

@@ -67,19 +67,19 @@ public class SpriteModel implements Serializable {
 	public void setXDirection(int x) {
 		this.xDirection = x;
 	}
-	
+
 	public int getXDirection() {
 		return xDirection;
 	}
-	
+
 	public void setYDirection(int y) {
 		this.yDirection = y;
 	}
-	
+
 	public int getYDirection() {
 		return yDirection;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -134,16 +134,20 @@ public class SpriteModel implements Serializable {
 	public void setImagePathIndicator(int imagePathIndicator) {
 		this.imagePathIndicator = imagePathIndicator;
 	}
+
 	public void setDestroySpriteFlag(boolean destroySpriteFlag) {
 		this.destroySpriteFlag = destroySpriteFlag;
 	}
 
-	public Rectangle getRectangleTest()
-	{
-		return rectangle;
+	public Rectangle getRectangleTest() {
+		if (rectangle == null) {
+			return new Rectangle(0, 0);
+		} else {
+			return rectangle;
+		}
 	}
-	
-	public void setRectangleTest(int x,int y,int w,int h) {
+
+	public void setRectangleTest(int x, int y, int w, int h) {
 		this.rectangle = new Rectangle(x, y, w, h);
 	}
 }

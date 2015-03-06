@@ -10,7 +10,9 @@ public class AutoMoveLeft implements Action{
 	{		
 		if((sprite.getXPosition() - 2) > Constants.LEFT_MARGIN.getValue()){
 			sprite.setXPosition(sprite.getXPosition() - 2);
-			sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
+			sprite.setRectangleTest(sprite.getXPosition(),
+					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
+					(int)sprite.getRectangleTest().getHeight());
 		}else {
 			sprite.setXPosition(Constants.RIGHT_MARGIN.getValue());
 		}

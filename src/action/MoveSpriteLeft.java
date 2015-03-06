@@ -14,8 +14,8 @@ public class MoveSpriteLeft implements Action {
 		if ((sprite.getXPosition() - 14) > Constants.LEFT_MARGIN.getValue()) {
 			sprite.setXPosition(sprite.getXPosition() - 14);
 			sprite.setRectangleTest(sprite.getXPosition(),
-					sprite.getYPosition(), sprite.getImage().getWidth(null),
-					sprite.getImage().getHeight(null));
+					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
+					(int)sprite.getRectangleTest().getHeight());
 		}
 	}
 
