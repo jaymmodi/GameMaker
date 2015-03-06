@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -12,18 +11,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Observer;
-import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import observer.GameBoardPanel;
 import model.SpriteModel;
 import model.TimerObservable;
+import observer.GameBoardPanel;
 import view.GameMakerView;
 import event.AssociateEvent;
 import event.Events;
@@ -79,11 +80,23 @@ public class GameMakerController {
 	}
 
 	public void populateSpriteImageMap(HashMap<Integer, String> imagePathMap) {
+		
 		imagePathMap.put(0, "img/fire_ball.gif");
 		imagePathMap.put(1, "img/paddle.gif");
 		imagePathMap.put(2, "img/tile.gif");
 		imagePathMap.put(3, "img/frog.png");
 	}
+	
+//	public void populateImages(){
+//		File dir = new File(".");
+//		gameList = new ArrayList<File>(Arrays.asList(dir.listFiles(new FilenameFilter() {
+//			@Override
+//			public boolean accept(File dir, String name) {
+//				return name.endsWith(".ser"); // or something else
+//			}
+//		}
+//	}
+//	
 
 	public void populateBackgroundImageMap(HashMap<Integer, String> backgroudImagePathMap) {
 
