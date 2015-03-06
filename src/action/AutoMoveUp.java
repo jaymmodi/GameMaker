@@ -11,8 +11,11 @@ public class AutoMoveUp implements Action{
 	
 	public void performAction(SpriteModel sprite)
 	{	//TODO: check the values for the following version	
-		if((sprite.getYPosition() - 14) > Constants.LEFT_MARGIN.getValue())
+		if((sprite.getYPosition() - 2) > Constants.LEFT_MARGIN.getValue()){
 			sprite.setYPosition(sprite.getYPosition() - 2);
+			}else{
+				sprite.setYPosition(Constants.GAME_BOARD_PANEL_HEIGHT.getValue());
+			}
 	}
 
 }
