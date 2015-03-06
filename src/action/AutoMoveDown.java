@@ -8,7 +8,7 @@ public class AutoMoveDown implements Action {
 	{	
 		//TODO: check the values for the following version	
 			if((sprite.getYPosition() + 14) < Constants.GAME_BOARD_PANEL_HEIGHT.getValue())
-				sprite.setYPosition(sprite.getYPosition() + 14);
+				sprite.setYPosition(sprite.getYPosition() + 2);
 	}
 
 	@Override

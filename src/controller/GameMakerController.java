@@ -254,7 +254,8 @@ public class GameMakerController {
 
 				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound" };
 				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove" };
-				String[] timeChangeAction = new String[] { "Move" };
+				String[] timeChangeAction = new String[] { "Move", "AutoMoveLeft", "AutoMoveRight",
+						 "AutoMoveUp" , "AutoMoveDown"};
 
 				if (theView.getEventSelected() == "Collision") {
 					theView.getEventSubTypeList().setListData(collisionEventSubType);

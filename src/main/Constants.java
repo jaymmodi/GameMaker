@@ -12,7 +12,7 @@ import event.Event;
 //}
 public enum Constants {
 	FRAME_WIDTH(1000),
-	FRAME_HEIGHT(1000),
+	FRAME_HEIGHT(700),
 	GAME_BOARD_PANEL_WIDTH(470),
 	GAME_BOARD_PANEL_HEIGHT(890),	
 	LEFT_MARGIN(0),
