@@ -15,7 +15,7 @@ public class KeyboardPress implements Event {
 	private static KeyboardPress instance;
 	// List of Sprites that have the KeyboardPress event
 	private ArrayList<SpriteModel> spriteListeners = new ArrayList<SpriteModel>();
-	private static FireAction fireAction;
+	private static FireAction fireAction = new FireAction();
 
 	private KeyboardPress() {
 		// Constructor for Singleton Pattern
