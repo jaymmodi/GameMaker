@@ -9,7 +9,7 @@ public class AutoMoveLeft implements Action{
 	public void performAction(SpriteModel sprite)
 	{		
 		if((sprite.getXPosition() - 14) > Constants.LEFT_MARGIN.getValue())
-			sprite.setXPosition(sprite.getXPosition() - 14);
+			sprite.setXPosition(sprite.getXPosition() - 2);
 	}
 
 	@Override

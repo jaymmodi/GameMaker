@@ -8,7 +8,7 @@ public class AutoMoveRight implements Action {
 	public void performAction(SpriteModel sprite)
 	{
 		if((sprite.getXPosition() + 14) < Constants.RIGHT_MARGIN.getValue() - 56)
-			sprite.setXPosition(sprite.getXPosition() + 14);
+			sprite.setXPosition(sprite.getXPosition() + 2);
 	}
 
 	@Override
