@@ -68,11 +68,12 @@ public class GameMakerView extends JFrame {
 
 	private Object[] imageStrings = new Object[] { new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif")),
 			new ImageIcon(getClass().getClassLoader().getResource("img/paddle.gif")),
-			new ImageIcon(getClass().getClassLoader().getResource("img/tile.gif")) };
+			new ImageIcon(getClass().getClassLoader().getResource("img/tile.gif")),
+	new ImageIcon(getClass().getClassLoader().getResource("img/frog.png")) };
 
 	private String[] eventStrings = new String[] { "None", "KeyboardPress", "TimeChange", "Collision" };
 
-	private String[] backgroundImages = new String[] { "None", "Background 1", "Background 2" };
+	private String[] backgroundImages = new String[] { "None", "Background 1", "Background 2", "Frogger"};
 
 	public String[] getBackgroundImages() {
 		return backgroundImages;

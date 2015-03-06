@@ -227,7 +227,12 @@ public class GameMakerController {
 					theView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/background2.png")));
 					saveableObject.setBackgroundImageIndicator(2);
-				} else {
+				} else if(theView.getBackgroundSelected().equals("Frogger")) {
+					theView.getGameBoardPanel().setBackgroundImage(
+							new ImageIcon(getClass().getClassLoader().getResource("img/Frogger.png")));
+					saveableObject.setBackgroundImageIndicator(3);
+				}
+				else  {
 					theView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
 					saveableObject.setBackgroundImageIndicator(0);
