@@ -82,6 +82,7 @@ public class GameMakerController {
 		imagePathMap.put(0, "img/fire_ball.gif");
 		imagePathMap.put(1, "img/paddle.gif");
 		imagePathMap.put(2, "img/tile.gif");
+		imagePathMap.put(3, "img/frog.png");
 	}
 
 	public void populateBackgroundImageMap(HashMap<Integer, String> backgroudImagePathMap) {
@@ -89,6 +90,7 @@ public class GameMakerController {
 		backgroudImagePathMap.put(0, "img/default_background.png");
 		backgroudImagePathMap.put(1, "img/background1.png");
 		backgroudImagePathMap.put(2, "img/background2.png");
+		backgroudImagePathMap.put(3, "img/Frogger.png");
 
 	}
 
