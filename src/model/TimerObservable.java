@@ -7,6 +7,8 @@ import java.util.Observable;
 
 import javax.swing.Timer;
 
+import org.apache.logging.log4j.LogManager;
+
 import controller.Utility;
 import event.Collision;
 import event.KeyboardPress;
@@ -21,13 +23,17 @@ public class TimerObservable extends Observable {
 	private int timerTracker = 0;
 	private Object clockTime;
 
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(TimerObservable.class);
+	
 	public TimerObservable() {
+		log.info("TimerObservable : TimerObservable() : Enter");
 		this.timer = new Timer(5, null);
-
+		log.info("TimerObservable : TimerObservable() : Exit");
 	}
 
 	public void computeAndNotify() {
-
+		log.info("TimerObservable : computeAndNotify : Enter");
 		timer.addActionListener(new ActionListener() {
 
 			@Override
@@ -47,7 +53,7 @@ public class TimerObservable extends Observable {
 		});
 		timer.setDelay(5);
 		timer.restart();
-
+		log.info("TimerObservable : computeAndNotify : Exit");
 	}
 
 	/*

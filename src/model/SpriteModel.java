@@ -7,10 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+
+import controller.GameMakerController;
+
 //import javafx.beans.binding.SetBinding;
 
 public class SpriteModel implements Serializable {
-
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(SpriteModel.class);
 	/**
 	 * 
 	 */
@@ -34,6 +39,9 @@ public class SpriteModel implements Serializable {
 	public SpriteModel(String name, int xPosition, int yPosition, Image image,
 			int spriteImageIndicator, boolean diplayFlag,
 			HashMap<String, ArrayList<String>> eventActionDetails) {
+		log.info("SpriteModel : Enter");
+		log.debug("SpriteModel : data : name - "+name+" , xPosition - "+xPosition+", yPosition - "+yPosition+
+				" , spriteImageIndicator - "+spriteImageIndicator+" , diplayFlag - "+diplayFlag);
 		this.spriteID = UUID.randomUUID();
 		setXPosition(xPosition);
 		setYPosition(yPosition);
@@ -43,6 +51,7 @@ public class SpriteModel implements Serializable {
 		setEventActionDetails(eventActionDetails);
 		setImagePathIndicator(spriteImageIndicator);
 		this.eventActionDetails.putAll(eventActionDetails);
+		log.info("SpriteModel : Exit");
 	}
 
 	public SpriteModel() {
