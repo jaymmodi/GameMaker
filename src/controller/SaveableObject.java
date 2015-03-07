@@ -21,7 +21,9 @@ public class SaveableObject implements Serializable {
 
 	public SaveableObject() {
 		log.info("SaveableObject : SaveableObject() : Enter");
-		log.info("SaveableObject : SaveableObject() : spriteList count - "+spriteList.size());
+		if(null!= spriteList){
+		 log.info("SaveableObject : SaveableObject() : spriteList count - "+spriteList.size());
+		}
 		setSpriteList(spriteList);
 		setBackgroundImageIndicator(0);
 		setTimerCheckIndicator(false);
