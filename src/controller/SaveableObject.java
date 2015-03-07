@@ -3,10 +3,13 @@ package controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+
 import model.SpriteModel;
 
 public class SaveableObject implements Serializable {
-
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(SaveableObject.class);
 	/**
 	 * 
 	 */
@@ -17,9 +20,12 @@ public class SaveableObject implements Serializable {
 	private int backgroundImageIndicator;
 
 	public SaveableObject() {
+		log.info("SaveableObject : SaveableObject() : Enter");
+		log.info("SaveableObject : SaveableObject() : spriteList count - "+spriteList.size());
 		setSpriteList(spriteList);
 		setBackgroundImageIndicator(0);
 		setTimerCheckIndicator(false);
+		log.info("SaveableObject : SaveableObject() : Exit");
 	}
 
 	public ArrayList<SpriteModel> getSpriteList() {

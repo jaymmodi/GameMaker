@@ -88,11 +88,12 @@ public class GameMakerController {
 	}
 
 	public void populateSpriteImageMap(HashMap<Integer, String> imagePathMap) {
-		
+		log.info("GameMakerController : populateSpriteImageMap : Enter");
 		imagePathMap.put(0, "img/fire_ball.gif");
 		imagePathMap.put(1, "img/paddle.gif");
 		imagePathMap.put(2, "img/tile.gif");
 		imagePathMap.put(3, "img/frog.png");
+		log.info("GameMakerController : populateSpriteImageMap : Exit");
 	}
 	
 //	public void populateImages(){
@@ -107,18 +108,22 @@ public class GameMakerController {
 //	
 
 	public void populateBackgroundImageMap(HashMap<Integer, String> backgroudImagePathMap) {
-
+		log.info("GameMakerController : populateBackgroundImageMap : Enter");
 		backgroudImagePathMap.put(0, "img/default_background.png");
 		backgroudImagePathMap.put(1, "img/background1.png");
 		backgroudImagePathMap.put(2, "img/background2.png");
 		backgroudImagePathMap.put(3, "img/Frogger.png");
+		log.info("GameMakerController : populateBackgroundImageMap : Exit");
 
 	}
 
 	public void changeGamePanelViewForWinLost(int gameFlag) {
+		log.info("GameMakerController : changeGamePanelViewForWinLost : Enter");
+		log.debug("GameMakerController : changeGamePanelViewForWinLost : gameFlag - "+gameFlag);
 		if ((gameFlag == 2) || (gameFlag == 3)) {
 			theView.getGameBoardPanel().repaint();
 		}
+		log.info("GameMakerController : changeGamePanelViewForWinLost : Exit");
 	}
 
 //	class CreateSpriteListener implements ActionListener {
@@ -130,9 +135,11 @@ public class GameMakerController {
 //	}
 
 	class AssociateListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logAL = LogManager
+				.getLogger(AssociateListener.class);
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			logAL.info("AssociateListener : actionPerformed : Enter");
 			String eventName;
 			ArrayList<String> actionList = new ArrayList<String>();
 			eventActionDetails = sprite.getEventActionDetails();
@@ -156,6 +163,7 @@ public class GameMakerController {
 					eventName = theView.getEventSelected() + "-" + theView.getEventSubTypeSelected();
 				}
 
+				logAL.debug("AssociateListener : actionPerformed : eventName - "+eventName);
 				if (eventActionDetails.containsKey(eventName))
 					actionList = eventActionDetails.get(eventName);
 
@@ -186,16 +194,19 @@ public class GameMakerController {
 			} catch (Exception ex) {
 
 			}
+			logAL.info("AssociateListener : actionPerformed : Enter");
 		}
-
+		
 	}
 
 	class DeleteSpriteListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logDSL = LogManager
+				.getLogger(DeleteSpriteListener.class);
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+         logDSL.info("DeleteSpriteListener : actionPerformed : Enter");
 			try {
+				logDSL.info("DeleteSpriteListener : actionPerformed : spriteName being deleted - "+theView.getSpriteName());
 				theView.getGameBoardPanel().removeSprite(theView.getSpriteName());
 				theView.clearUserInput();
 				spriteNames.remove(theView.getSpriteName());
@@ -203,13 +214,15 @@ public class GameMakerController {
 			} catch (Exception ex) {
 				theView.displayErrorMessage(ex.toString());
 			}
+			logDSL.info("DeleteSpriteListener : actionPerformed : Exit");	
 		}
 	}
 
 	class ClockCheckBoxListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logCCL = LogManager
+				.getLogger(ClockCheckBoxListener.class);
 		public void actionPerformed(ActionEvent event) {
-
+            logCCL.info("ClockCheckBoxListener : actionPerformed : Enter");
 			try {
 				JCheckBox cb = (JCheckBox) event.getSource();
 				if (cb.isSelected()) {
@@ -228,14 +241,16 @@ public class GameMakerController {
 			} catch (Exception ex) {
 				theView.displayErrorMessage(ex.toString());
 			}
+			logCCL.info("ClockCheckBoxListener : actionPerformed : Exit");
 		}
 	}
 
 	class BackgroundsListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logBL = LogManager
+				.getLogger(BackgroundsListener.class);
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+          logBL.info("BackgroundsListener : actionPerformed : Enter");
 			// 0 : Default Background
 			// 1 : Background Setting 1
 			// 2 : Background Setting 2
@@ -265,17 +280,20 @@ public class GameMakerController {
 			} catch (Exception ex) {
 
 			}
-
+			logBL.info("BackgroundsListener : actionPerformed : Exit");
 		}
 
 	}
 
 	class EventsListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logEL = LogManager
+				.getLogger(EventsListener.class);
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			logEL.info("EventsListener : actionPerformed : Enter");
+			logEL.info("EventsListener : actionPerformed : event selected - "+theView.getEventSelected());
 			try {
-
+                
 				String[] collisionEventSubType = spriteNames.toArray(new String[spriteNames.size()]);
 
 				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound", "GameWin", "GameLoss" };
@@ -299,15 +317,17 @@ public class GameMakerController {
 			} catch (Exception ex) {
 				theView.displayErrorMessage(ex.toString());
 			}
-
+			logEL.info("EventsListener : actionPerformed : Exit");
 		}
 
 	}
 
 	class SaveSpriteListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logSSL = LogManager
+				.getLogger(SaveSpriteListener.class);
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			logSSL.info("SaveSpriteListener : actionPerformed : Enter");
 			try {
 
 				if (theView.getGameBoardPanel().getSpriteList().isEmpty())
@@ -324,15 +344,17 @@ public class GameMakerController {
 			} catch (Exception ex) {
 				theView.displayErrorMessage(ex.toString());
 			}
-
+			logSSL.info("SaveSpriteListener : actionPerformed : Exit");
 		}
 
 	}
 
 	class LoadSpriteLister implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logLSL = LogManager
+				.getLogger(LoadSpriteLister.class);
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			logLSL.info("LoadSpriteLister : actionPerformed : Enter");
 			try {
 
 				SaveableObject loadableObject = new SaveableObject();
@@ -361,16 +383,17 @@ public class GameMakerController {
 				ex.printStackTrace();
 
 			}
-
+			logLSL.info("LoadSpriteLister : actionPerformed : Exit");
 		}
 
 	}
 
 	class PlayGameListener implements ActionListener {
-
+		final org.apache.logging.log4j.Logger logPGL = LogManager
+				.getLogger(LoadSpriteLister.class);
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-
+            logPGL.info("PlayGameListener : actionPerformed : Enter");
 			timerObs = new TimerObservable();
 			theView.getGameBoardPanel().requestFocusInWindow();
 
@@ -384,18 +407,21 @@ public class GameMakerController {
 			press();
 			theView.getPlayGameButton().setEnabled(false);
 			theView.getLoadSpriteButton().setEnabled(false);
-
+			logPGL.info("PlayGameListener : actionPerformed : Exit");
 		}
 	}
 
 	class KeyBoardListener extends KeyAdapter {
-
+		final org.apache.logging.log4j.Logger logKBL = LogManager
+				.getLogger(LoadSpriteLister.class);
 		@Override
 		public void keyReleased(KeyEvent e) {
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
+			logKBL.info("KeyBoardListener : keyPressed : Enter");
+			logKBL.info("KeyBoardListener : keyPressed : keyCode - "+e.getKeyCode());
 			if (e.getKeyCode() == KeyEvent.VK_LEFT)
 				KeyboardPress.getInstance().associateAction("Left Key");
 			else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -406,12 +432,11 @@ public class GameMakerController {
 				KeyboardPress.getInstance().associateAction("Down Key");
 			else if (e.getKeyCode() == KeyEvent.VK_SPACE)
 				KeyboardPress.getInstance().associateAction("Space Key");
-
+			logKBL.info("KeyBoardListener : keyPressed : Exit");
 		}
 	}
 
 	class CreateSpriteListener extends DropTargetAdapter {
-
 		private DropTarget dropTarget;
 		private GameMakerView gameMakerView;
 		private GameBoardPanel gameBoardPanel;

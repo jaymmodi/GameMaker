@@ -7,8 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-public class LoadGameMakerState implements Serializable {
+import org.apache.logging.log4j.LogManager;
 
+public class LoadGameMakerState implements Serializable {
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(LoadGameMakerState.class);
 	/**
 	 * 
 	 */
@@ -19,12 +22,14 @@ public class LoadGameMakerState implements Serializable {
 	private String fileName;
 
 	public LoadGameMakerState() {
+		log.info("LoadGameMakerState : LoadGameMakerState() : Enter");
 		this.saveableObject = null;
 		this.fileName = null;
+		log.info("LoadGameMakerState : LoadGameMakerState() : Exit");
 	}
 
 	public SaveableObject load() {
-
+		log.info("LoadGameMakerState : load : Enter");
 		try {
 			FileInputStream fileInputStream = new FileInputStream(getFileName());
 			ObjectInputStream objectInputStream = new ObjectInputStream(
@@ -36,7 +41,7 @@ public class LoadGameMakerState implements Serializable {
 		} catch (ClassNotFoundException e) {
 		} catch (IOException e) {
 		}
-
+		log.info("LoadGameMakerState : load : Exit");
 		return saveableObject;
 	}
 
