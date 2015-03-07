@@ -270,7 +270,7 @@ public class GameMakerController {
 
 				String[] collisionEventSubType = spriteNames.toArray(new String[spriteNames.size()]);
 
-				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound", "GameWin" };
+				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound", "GameWin", "GameLoss" };
 				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove", "Fire"};
 				String[] timeChangeAction = new String[] { "Move", "AutoMoveLeft", "AutoMoveRight",
 						 "AutoMoveUp" , "AutoMoveDown"};
