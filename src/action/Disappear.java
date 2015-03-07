@@ -26,7 +26,7 @@ public class Disappear implements Action {
 	public void performAction(SpriteModel sprite1, SpriteModel sprite2) {
 		if ((sprite1.getRectangleTest()).intersects(sprite2.getRectangleTest())) {
 			sprite1.setDestroySpriteFlag(true);
-			Utility.getInstance().setGameFlag(3);
+			Utility.getInstance().setGameFlag(2);
 		}
 
 	}
