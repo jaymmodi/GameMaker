@@ -36,80 +36,61 @@ public class FireAction implements Action {
 
 		eventActionDetails = new HashMap<String, ArrayList<String>>();
 
-		for (String eventName : sprite.getEventActionDetails().keySet()) {
-			eventNameSplit = eventName.split("-");
-			if (eventNameSplit[0].equalsIgnoreCase("Collision")) {
-				eventActionDetails.put(eventName, sprite
-						.getEventActionDetails().get(eventName));
-			}
-		}
-		// ArrayList<String> tempActionList = new ArrayList<String>();
-		// tempActionList.add("AUTOMOVEUP");
-		// eventActionDetails.put("TIMECHANGE", tempActionList);
-
-		for (Events event : Events.values()) {
-			for (String eventName : eventActionDetails.keySet()) {
-				eventNameSplit = eventName.split("-");
-				
-				if (event.name().equals(eventNameSplit[0].toUpperCase())) {
-					associateEvent = new AssociateEvent(event.getValue());
-					associateEvent.attachEvent(sprite);
-				}
-			}
-		}
-
 		int x = sprite.getXPosition() + (sprite.getImage().getWidth(null)) / 2;
 		int y = sprite.getYPosition() + (sprite.getImage().getHeight(null)) / 2;
 
-		fireActionImage = new ImageIcon(getClass().getClassLoader()
-				.getResource("img/fire_ball.gif"));
+		fireActionImage = new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif"));
 
 		x = x - (fireActionImage.getImage().getWidth(null) / 2);
 		y = y - (fireActionImage.getImage().getHeight(null) / 2);
 
-		tempSprite = new SpriteModel("Bullet", x, y,
-				fireActionImage.getImage(), -1, true, eventActionDetails);
+		tempSprite = new SpriteModel("Bullet", x, y, fireActionImage.getImage(), -1, true, eventActionDetails);
+		tempSprite.setRectangleTest(x, y, tempSprite.getImage().getWidth(null), tempSprite.getImage().getHeight(null));
 		fireActionSprites.add(tempSprite);
 	}
 
 	public void performAction() {
 
-	ArrayList<SpriteModel> copy = new ArrayList<SpriteModel>(fireActionSprites);
+		ArrayList<SpriteModel> copy = new ArrayList<SpriteModel>(fireActionSprites);
 		if (!fireActionSprites.isEmpty()) {
 			for (SpriteModel sprite : fireActionSprites) {
 				if (sprite.getYPosition() >= 0) {
-					sprite.setYPosition(sprite.getYPosition()
-							+ sprite.getYDirection());
+					sprite.setYPosition(sprite.getYPosition() + sprite.getYDirection());
+					sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null), sprite.getImage().getHeight(null));
 				} else {
 					copy.remove(sprite);
 				}
 			}
 		}
 		fireActionSprites = copy;
-		SpriteModel sprite2 = new SpriteModel();
+
+		ArrayList<SpriteModel> sprite2 = new ArrayList<SpriteModel>();
+
 		for (SpriteModel sprite : Collision.getInstance().getSpriteListeners()) {
 
 			HashMap<String, ArrayList<String>> eventActionDetails = sprite.getEventActionDetails();
-			
+
 			for (String keyEvent : eventActionDetails.keySet()) {
 				String event = keyEvent.split("-")[0].trim();
 				if (event.equals("Collision")) {
 					SpriteModel sprite1 = sprite;
 					String spriteString = keyEvent.split("-")[1].trim();
 					for (SpriteModel secondSprite : Collision.getInstance().getSpriteListeners()) {
-						if (secondSprite.getName().equalsIgnoreCase(
-								spriteString)) {
-							sprite2 = secondSprite;
+						if (secondSprite.getName().equalsIgnoreCase(spriteString)) {
+							sprite2 = fireActionSprites;
 							break;
 						}
 					}
-					
-					//For each pair of sprites identify the action to be performed and call the action
+
+					// For each pair of sprites identify the action to be
+					// performed and call the action
 					for (String action : eventActionDetails.get(keyEvent)) {
 						for (Actions actionList : Actions.values()) {
-							if (actionList.name().equalsIgnoreCase(action))
-								actionList.getValue().performAction(sprite1,
-										sprite2);
+							if (actionList.name().equalsIgnoreCase(action)) {
+								for (SpriteModel childSprite : fireActionSprites) {
+									actionList.getValue().performAction(sprite1, childSprite);
+								}
+							}
 						}
 
 					}
