@@ -12,10 +12,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DropMode;
@@ -37,9 +34,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.TransferHandler;
 
 import main.Constants;
+import main.GameMaker;
 //import main.TimerObservable;
 import observer.GameBoardPanel;
 import observer.GameClockPanel;
+
+import org.apache.logging.log4j.LogManager;
 
 /**
  * GaeMakerView class
@@ -83,17 +83,11 @@ public class GameMakerView extends JFrame {
 	private JTextField spriteName = new JTextField(10);
 
 	private JLabel spriteImageLabel = new JLabel("Image");
-	// private JComboBox imagesList = new JComboBox(imageStrings);
 	private JList imagesList = new JList(imageStrings);
 
-//	private JLabel spriteXPositionLabel = new JLabel("x-position");
-//	private JTextField spriteXPosition = new JTextField(10);
-
-//	private JLabel spriteYPositionLabel = new JLabel("y-position");
 	private int spriteXPosition;
 	private int spriteYPosition;
 
-	//private JButton createSpriteButton = new JButton("Create");
 	private JButton deleteSpriteButton = new JButton("Delete");
 	private JButton saveSpriteButton = new JButton("Save");
 	private JButton loadSpriteButton = new JButton("Load");
@@ -125,11 +119,11 @@ public class GameMakerView extends JFrame {
 
 	private JLabel backgroundImage = new JLabel();
 	
-
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(GameMakerView.class);
+	
 	public GameMakerView() {
-
-		//populateImageData();
-		// for collision-disappear
+        log.info("GameMakerView : Enter");
 		setDisplayFlagView(true);
 
 		this.setLayout(new BorderLayout());
@@ -176,26 +170,6 @@ public class GameMakerView extends JFrame {
 		scroll.setVisible(true);
 		
 		spritePanel.add(imagesList, gridBagConstraints);
-
-		/*gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 4;
-		spritePanel.add(spriteXPositionLabel, gridBagConstraints);
-
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 4;
-		spritePanel.add(spriteXPosition, gridBagConstraints);
-
-		gridBagConstraints.gridx = 4;
-		gridBagConstraints.gridy = 4;
-		spritePanel.add(spriteYPositionLabel, gridBagConstraints);
-
-		gridBagConstraints.gridx = 5;
-		gridBagConstraints.gridy = 4;
-		spritePanel.add(spriteYPosition, gridBagConstraints);*/
-
-		//gridBagConstraints.gridx = 0;
-		//gridBagConstraints.gridy = 10;
-		//spritePanel.add(createSpriteButton, gridBagConstraints);
 
 		gridBagConstraints.gridx = 4;
 		gridBagConstraints.gridy = 10;
@@ -315,10 +289,11 @@ public class GameMakerView extends JFrame {
 		this.add(gamePanel, BorderLayout.EAST);
 
 		gameBoardPanel.setBackgroundImage(new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
-
+        log.info("GameMakerView : Exit");
 	}
 
 	public void clearUserInput() {
+		log.info("clearUserInput : Enter");
 		spriteName.setText(null);
 		imagesList.setSelectedIndex(0);
 //		spriteXPosition.setText(null);
@@ -328,6 +303,7 @@ public class GameMakerView extends JFrame {
 		actionList.clearSelection();
 		activityTextArea.setText(null);
 		associateButton.setEnabled(false);
+		log.info("clearUserInput : Exit");
 	}
 
 	public String getSpriteName() {
@@ -548,14 +524,19 @@ class DropBoxHandler extends TransferHandler {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JList imagesList;
+	
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(DropBoxHandler.class);
 
 	DropBoxHandler(JList imagesList) {
+		log.info("DropBoxHandler : Enter");
+		log.debug("DropBoxHandler : imageListSize -"+imagesList.getComponentCount());
 		this.imagesList = imagesList;
+		log.info("DropBoxHandler : Exit");
 	}
 
 	@Override
 	protected Transferable createTransferable(JComponent c) {
-
 		return new Transferable() {
 			public DataFlavor[] getTransferDataFlavors() {
 				return new DataFlavor[] { GameMakerView.DATA_FLAVOUR };
@@ -568,7 +549,9 @@ class DropBoxHandler extends TransferHandler {
 			public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 				return imagesList.getSelectedValue();
 			}
+			
 		};
+		
 	}
 	@Override
 	public int getSourceActions(JComponent c) {

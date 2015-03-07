@@ -22,6 +22,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+
+import main.GameMaker;
 import model.SpriteModel;
 import model.TimerObservable;
 import observer.GameBoardPanel;
@@ -47,8 +50,11 @@ public class GameMakerController {
 	private HashMap<Integer, String> spriteImagePathMap;
 	private HashMap<Integer, String> backgroudImagePathMap;
 
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(GameMakerController.class);
+	
 	public GameMakerController(GameMakerView theView) {
-
+        log.info("GameMakerController : Enter");
 		this.saveableObject = new SaveableObject();
 		this.saveGameMakerState = new SaveGameMakerState();
 		this.loadGameMakerState = new LoadGameMakerState();
@@ -77,6 +83,8 @@ public class GameMakerController {
 		this.saveGameMakerState.setFileName("save.txt");
 
 		this.loadGameMakerState.setFileName("save.txt");
+		
+		log.info("GameMakerController : Exit");
 	}
 
 	public void populateSpriteImageMap(HashMap<Integer, String> imagePathMap) {
