@@ -1,5 +1,7 @@
 package action;
 
+import org.apache.logging.log4j.LogManager;
+
 import model.SpriteModel;
 
 /**
@@ -14,7 +16,8 @@ public class ChangeDirection implements Action {
 
 	private boolean UnittestFlag = false;
 
-	
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(ChangeDirection.class);
 	/*
 	 * performs the change direction action for a sprite on collision with
 	 * associated sprite
@@ -24,7 +27,9 @@ public class ChangeDirection implements Action {
 	 */
 	@Override
 	public void performAction(SpriteModel sprite1, SpriteModel sprite2) {
-
+       log.info("ChangeDirection : performAction : Enter");
+       log.debug("ChangeDirection : performAction : sprite1 : name - "+sprite1.getName());
+       log.debug("ChangeDirection : performAction : sprite2 : name - "+sprite2.getName());
 		if (isUnittestFlag()) {
 			if ((sprite1.getRectangleTest()).intersects(sprite2
 					.getRectangleTest())) {
@@ -114,7 +119,7 @@ public class ChangeDirection implements Action {
 			}
 
 		}
-
+		log.info("ChangeDirection : performAction : Exit");
 	}
 
 	@Override

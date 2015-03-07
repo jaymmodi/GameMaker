@@ -1,17 +1,23 @@
 package action;
 
+import org.apache.logging.log4j.LogManager;
+
 import main.Constants;
 import model.SpriteModel;
 
 //Move the Sprite left when keyboard left arrow is pressed
 public class MoveSpriteUp implements Action {
 
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(MoveSpriteUp.class);
+	
 	public MoveSpriteUp() {
 
 	}
 
-	public void performAction(SpriteModel sprite) { // TODO: check the values
-													// for the following version
+	public void performAction(SpriteModel sprite) { 
+		log.info("MoveSpriteUp : performAction : Enter");
+		log.info("MoveSpriteUp : performAction : sprite : name - "+sprite.getName());
 		if ((sprite.getYPosition() - 14) > Constants.LEFT_MARGIN.getValue()) {
 			sprite.setYPosition(sprite.getYPosition() - 14);
 			sprite.setRectangleTest(sprite.getXPosition(), sprite
@@ -19,6 +25,7 @@ public class MoveSpriteUp implements Action {
 					(int) sprite.getRectangleTest().getWidth(), (int) sprite
 							.getRectangleTest().getHeight());
 		}
+		log.info("MoveSpriteUp : performAction : Exit");
 	}
 
 	@Override

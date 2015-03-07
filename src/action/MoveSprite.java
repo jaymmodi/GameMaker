@@ -6,6 +6,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import org.apache.logging.log4j.LogManager;
+
 import controller.Utility;
 import model.SpriteModel;
 import main.Constants;
@@ -16,11 +18,14 @@ import main.Constants;
  *
  */
 public class MoveSprite implements Action {
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(MoveSprite.class);
 	
 	boolean UnitTestFlag = false;
 
 	public void performAction(SpriteModel sprite){
-
+        log.info("MoveSprite : performAction : Enter");
+        log.debug("MoveSprite : performAction : sprite : name - "+sprite.getName());
 		int x=sprite.getXPosition() + sprite.getXDirection();
 		int y=sprite.getYPosition() + sprite.getYDirection();
 		sprite.setXPosition(sprite.getXPosition() + sprite.getXDirection());
@@ -62,6 +67,7 @@ public class MoveSprite implements Action {
 			}
 		}
 		}
+		log.info("MoveSprite : performAction : Exit");
 	}
 
 	@Override

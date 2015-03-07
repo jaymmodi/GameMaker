@@ -10,6 +10,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
+import org.apache.logging.log4j.LogManager;
+
 import controller.Utility;
 import event.AssociateEvent;
 import event.Collision;
@@ -26,8 +28,12 @@ public class FireAction implements Action {
 
 	ArrayList<SpriteModel> fireActionSprites = new ArrayList<SpriteModel>();
 
+	static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(FireAction.class);
+	
 	public void performAction(SpriteModel sprite) {
-
+       log.info("FireAction : performAction : Enter");
+       log.debug("FireAction : performAction : sprite : name - "+sprite.getName());
 		SpriteModel tempSprite;
 		ImageIcon fireActionImage;
 		String[] eventNameSplit;
@@ -47,10 +53,12 @@ public class FireAction implements Action {
 		tempSprite = new SpriteModel("Bullet", x, y, fireActionImage.getImage(), -1, true, eventActionDetails);
 		tempSprite.setRectangleTest(x, y, tempSprite.getImage().getWidth(null), tempSprite.getImage().getHeight(null));
 		fireActionSprites.add(tempSprite);
+		
+		log.info("FireAction : performAction : Exit");
 	}
 
 	public void performAction() {
-
+		log.info("FireAction : performAction() : Enter");
 		ArrayList<SpriteModel> copy = new ArrayList<SpriteModel>(fireActionSprites);
 		if (!fireActionSprites.isEmpty()) {
 			for (SpriteModel sprite : fireActionSprites) {
@@ -98,7 +106,7 @@ public class FireAction implements Action {
 
 			}
 		}
-
+		log.info("FireAction : performAction() : Exit");
 	}
 
 	public ArrayList<SpriteModel> getFireActionSprites() {
