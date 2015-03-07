@@ -17,7 +17,7 @@ public class MoveSpriteDown implements Action {
 		log.info("MoveSpriteDown : performAction : Enter");
 		log.debug("MoveSpriteDown : performAction : sprite : name - "+sprite.getName());
 		if ((sprite.getYPosition() + 14) < Constants.GAME_BOARD_PANEL_HEIGHT
-				.getValue()) {
+				 ) {
 			sprite.setYPosition(sprite.getYPosition() + 14);
 			sprite.setRectangleTest(sprite.getXPosition(), sprite
 					.getYPosition(),

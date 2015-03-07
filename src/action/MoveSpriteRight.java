@@ -13,7 +13,7 @@ public class MoveSpriteRight implements Action {
 	public void performAction(SpriteModel sprite) {
 		log.info("MoveSpriteRight : performAction : Enter");
 		log.debug("MoveSpriteRight : performAction : sprite : name - "+sprite.getName());
-		if ((sprite.getXPosition() + 14) < Constants.RIGHT_MARGIN.getValue() - 56) {
+		if ((sprite.getXPosition() + 14) < Constants.RIGHT_MARGIN  - 56) {
 			sprite.setXPosition(sprite.getXPosition() + 14);
 			sprite.setRectangleTest(sprite.getXPosition(),
 					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),

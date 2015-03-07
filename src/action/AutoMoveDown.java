@@ -14,7 +14,7 @@ public class AutoMoveDown implements Action {
 		log.info("AutoMoveDown : performAction : Enter");
 		log.debug("performAction : sprite : name - "+sprite.getName()+", Yposition - "+ sprite.getYPosition());
 		
-			if((sprite.getYPosition() + 2) < Constants.GAME_BOARD_PANEL_HEIGHT.getValue()){
+			if((sprite.getYPosition() + 2) < Constants.GAME_BOARD_PANEL_HEIGHT){
 				sprite.setYPosition(sprite.getYPosition() + 2);
 				sprite.setRectangleTest(sprite.getXPosition(),
 						sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),

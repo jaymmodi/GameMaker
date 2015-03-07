@@ -18,7 +18,7 @@ public class MoveSpriteUp implements Action {
 	public void performAction(SpriteModel sprite) { 
 		log.info("MoveSpriteUp : performAction : Enter");
 		log.info("MoveSpriteUp : performAction : sprite : name - "+sprite.getName());
-		if ((sprite.getYPosition() - 14) > Constants.LEFT_MARGIN.getValue()) {
+		if ((sprite.getYPosition() - 14) > Constants.LEFT_MARGIN ) {
 			sprite.setYPosition(sprite.getYPosition() - 14);
 			sprite.setRectangleTest(sprite.getXPosition(), sprite
 					.getYPosition(),

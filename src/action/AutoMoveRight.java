@@ -11,13 +11,13 @@ public class AutoMoveRight implements Action {
 	public void performAction(SpriteModel sprite) {
 		log.info("AutoMoveRight : performAction : Enter");
 		log.debug("AutoMoveRight : performAction : sprite : name - "+sprite.getName()+", XPosition - "+sprite.getXPosition());
-		if ((sprite.getXPosition() + 2) < Constants.RIGHT_MARGIN.getValue() - 56) {
+		if ((sprite.getXPosition() + 2) < Constants.RIGHT_MARGIN - 56) {
 			sprite.setXPosition(sprite.getXPosition() + 2);
 			sprite.setRectangleTest(sprite.getXPosition(),
 					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
 					(int)sprite.getRectangleTest().getHeight());
 		} else{
-			sprite.setXPosition(Constants.LEFT_MARGIN.getValue());
+			sprite.setXPosition(Constants.LEFT_MARGIN);
 		}
 		log.debug("AutoMoveRight : performAction : sprite : name - "+sprite.getName()+", XPosition updated to- "+sprite.getXPosition());
 		log.info("AutoMoveRight : performAction : Exit");

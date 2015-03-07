@@ -50,11 +50,10 @@ public class GameMakerController {
 	private HashMap<Integer, String> spriteImagePathMap;
 	private HashMap<Integer, String> backgroudImagePathMap;
 
-	static org.apache.logging.log4j.Logger log = LogManager
-			.getLogger(GameMakerController.class);
-	
+	static org.apache.logging.log4j.Logger log = LogManager.getLogger(GameMakerController.class);
+
 	public GameMakerController(GameMakerView theView) {
-        log.info("GameMakerController : Enter");
+		log.info("GameMakerController : Enter");
 		this.saveableObject = new SaveableObject();
 		this.saveGameMakerState = new SaveGameMakerState();
 		this.loadGameMakerState = new LoadGameMakerState();
@@ -83,7 +82,7 @@ public class GameMakerController {
 		this.saveGameMakerState.setFileName("save.txt");
 
 		this.loadGameMakerState.setFileName("save.txt");
-		
+
 		log.info("GameMakerController : Exit");
 	}
 
@@ -95,17 +94,18 @@ public class GameMakerController {
 		imagePathMap.put(3, "img/frog.png");
 		log.info("GameMakerController : populateSpriteImageMap : Exit");
 	}
-	
-//	public void populateImages(){
-//		File dir = new File(".");
-//		gameList = new ArrayList<File>(Arrays.asList(dir.listFiles(new FilenameFilter() {
-//			@Override
-//			public boolean accept(File dir, String name) {
-//				return name.endsWith(".ser"); // or something else
-//			}
-//		}
-//	}
-//	
+
+	// public void populateImages(){
+	// File dir = new File(".");
+	// gameList = new ArrayList<File>(Arrays.asList(dir.listFiles(new
+	// FilenameFilter() {
+	// @Override
+	// public boolean accept(File dir, String name) {
+	// return name.endsWith(".ser"); // or something else
+	// }
+	// }
+	// }
+	//
 
 	public void populateBackgroundImageMap(HashMap<Integer, String> backgroudImagePathMap) {
 		log.info("GameMakerController : populateBackgroundImageMap : Enter");
@@ -119,24 +119,24 @@ public class GameMakerController {
 
 	public void changeGamePanelViewForWinLost(int gameFlag) {
 		log.info("GameMakerController : changeGamePanelViewForWinLost : Enter");
-		log.debug("GameMakerController : changeGamePanelViewForWinLost : gameFlag - "+gameFlag);
+		log.debug("GameMakerController : changeGamePanelViewForWinLost : gameFlag - " + gameFlag);
 		if ((gameFlag == 2) || (gameFlag == 3)) {
 			theView.getGameBoardPanel().repaint();
 		}
 		log.info("GameMakerController : changeGamePanelViewForWinLost : Exit");
 	}
 
-//	class CreateSpriteListener implements ActionListener {
-//
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//
-//		}
-//	}
+	// class CreateSpriteListener implements ActionListener {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	//
+	// }
+	// }
 
 	class AssociateListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logAL = LogManager
-				.getLogger(AssociateListener.class);
+		final org.apache.logging.log4j.Logger logAL = LogManager.getLogger(AssociateListener.class);
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			logAL.info("AssociateListener : actionPerformed : Enter");
@@ -163,7 +163,7 @@ public class GameMakerController {
 					eventName = theView.getEventSelected() + "-" + theView.getEventSubTypeSelected();
 				}
 
-				logAL.debug("AssociateListener : actionPerformed : eventName - "+eventName);
+				logAL.debug("AssociateListener : actionPerformed : eventName - " + eventName);
 				if (eventActionDetails.containsKey(eventName))
 					actionList = eventActionDetails.get(eventName);
 
@@ -196,17 +196,17 @@ public class GameMakerController {
 			}
 			logAL.info("AssociateListener : actionPerformed : Enter");
 		}
-		
+
 	}
 
 	class DeleteSpriteListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logDSL = LogManager
-				.getLogger(DeleteSpriteListener.class);
+		final org.apache.logging.log4j.Logger logDSL = LogManager.getLogger(DeleteSpriteListener.class);
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-         logDSL.info("DeleteSpriteListener : actionPerformed : Enter");
+			logDSL.info("DeleteSpriteListener : actionPerformed : Enter");
 			try {
-				logDSL.info("DeleteSpriteListener : actionPerformed : spriteName being deleted - "+theView.getSpriteName());
+				logDSL.info("DeleteSpriteListener : actionPerformed : spriteName being deleted - " + theView.getSpriteName());
 				theView.getGameBoardPanel().removeSprite(theView.getSpriteName());
 				theView.clearUserInput();
 				spriteNames.remove(theView.getSpriteName());
@@ -214,15 +214,15 @@ public class GameMakerController {
 			} catch (Exception ex) {
 				theView.displayErrorMessage(ex.toString());
 			}
-			logDSL.info("DeleteSpriteListener : actionPerformed : Exit");	
+			logDSL.info("DeleteSpriteListener : actionPerformed : Exit");
 		}
 	}
 
 	class ClockCheckBoxListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logCCL = LogManager
-				.getLogger(ClockCheckBoxListener.class);
+		final org.apache.logging.log4j.Logger logCCL = LogManager.getLogger(ClockCheckBoxListener.class);
+
 		public void actionPerformed(ActionEvent event) {
-            logCCL.info("ClockCheckBoxListener : actionPerformed : Enter");
+			logCCL.info("ClockCheckBoxListener : actionPerformed : Enter");
 			try {
 				JCheckBox cb = (JCheckBox) event.getSource();
 				if (cb.isSelected()) {
@@ -246,11 +246,11 @@ public class GameMakerController {
 	}
 
 	class BackgroundsListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logBL = LogManager
-				.getLogger(BackgroundsListener.class);
+		final org.apache.logging.log4j.Logger logBL = LogManager.getLogger(BackgroundsListener.class);
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-          logBL.info("BackgroundsListener : actionPerformed : Enter");
+			logBL.info("BackgroundsListener : actionPerformed : Enter");
 			// 0 : Default Background
 			// 1 : Background Setting 1
 			// 2 : Background Setting 2
@@ -263,12 +263,15 @@ public class GameMakerController {
 					theView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/background2.png")));
 					saveableObject.setBackgroundImageIndicator(2);
-				} else if(theView.getBackgroundSelected().equals("Frogger")) {
+				} else if (theView.getBackgroundSelected().equals("Frogger")) {
 					theView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/Frogger.png")));
 					saveableObject.setBackgroundImageIndicator(3);
-				}
-				else  {
+				} else if (theView.getBackgroundSelected().equals("Background 3")) {
+					theView.getGameBoardPanel().setBackgroundImage(
+							new ImageIcon(getClass().getClassLoader().getResource("img/background3.png")));
+					saveableObject.setBackgroundImageIndicator(3);
+				} else {
 					theView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
 					saveableObject.setBackgroundImageIndicator(0);
@@ -286,20 +289,19 @@ public class GameMakerController {
 	}
 
 	class EventsListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logEL = LogManager
-				.getLogger(EventsListener.class);
+		final org.apache.logging.log4j.Logger logEL = LogManager.getLogger(EventsListener.class);
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			logEL.info("EventsListener : actionPerformed : Enter");
-			logEL.info("EventsListener : actionPerformed : event selected - "+theView.getEventSelected());
+			logEL.info("EventsListener : actionPerformed : event selected - " + theView.getEventSelected());
 			try {
-                
+
 				String[] collisionEventSubType = spriteNames.toArray(new String[spriteNames.size()]);
 
 				String[] collisionAction = new String[] { "Disappear", "ChangeDirection", "Sound", "GameWin", "GameLoss" };
-				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove", "Fire"};
-				String[] timeChangeAction = new String[] { "Move", "AutoMoveLeft", "AutoMoveRight",
-						 "AutoMoveUp" , "AutoMoveDown"};
+				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove", "Fire" };
+				String[] timeChangeAction = new String[] { "Move", "AutoMoveLeft", "AutoMoveRight", "AutoMoveUp", "AutoMoveDown" };
 
 				if (theView.getEventSelected() == "Collision") {
 					theView.getEventSubTypeList().setListData(collisionEventSubType);
@@ -323,8 +325,8 @@ public class GameMakerController {
 	}
 
 	class SaveSpriteListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logSSL = LogManager
-				.getLogger(SaveSpriteListener.class);
+		final org.apache.logging.log4j.Logger logSSL = LogManager.getLogger(SaveSpriteListener.class);
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			logSSL.info("SaveSpriteListener : actionPerformed : Enter");
@@ -350,8 +352,8 @@ public class GameMakerController {
 	}
 
 	class LoadSpriteLister implements ActionListener {
-		final org.apache.logging.log4j.Logger logLSL = LogManager
-				.getLogger(LoadSpriteLister.class);
+		final org.apache.logging.log4j.Logger logLSL = LogManager.getLogger(LoadSpriteLister.class);
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			logLSL.info("LoadSpriteLister : actionPerformed : Enter");
@@ -389,11 +391,11 @@ public class GameMakerController {
 	}
 
 	class PlayGameListener implements ActionListener {
-		final org.apache.logging.log4j.Logger logPGL = LogManager
-				.getLogger(LoadSpriteLister.class);
+		final org.apache.logging.log4j.Logger logPGL = LogManager.getLogger(LoadSpriteLister.class);
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-            logPGL.info("PlayGameListener : actionPerformed : Enter");
+			logPGL.info("PlayGameListener : actionPerformed : Enter");
 			timerObs = new TimerObservable();
 			theView.getGameBoardPanel().requestFocusInWindow();
 
@@ -412,8 +414,8 @@ public class GameMakerController {
 	}
 
 	class KeyBoardListener extends KeyAdapter {
-		final org.apache.logging.log4j.Logger logKBL = LogManager
-				.getLogger(LoadSpriteLister.class);
+		final org.apache.logging.log4j.Logger logKBL = LogManager.getLogger(LoadSpriteLister.class);
+
 		@Override
 		public void keyReleased(KeyEvent e) {
 		}
@@ -421,7 +423,7 @@ public class GameMakerController {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			logKBL.info("KeyBoardListener : keyPressed : Enter");
-			logKBL.info("KeyBoardListener : keyPressed : keyCode - "+e.getKeyCode());
+			logKBL.info("KeyBoardListener : keyPressed : keyCode - " + e.getKeyCode());
 			if (e.getKeyCode() == KeyEvent.VK_LEFT)
 				KeyboardPress.getInstance().associateAction("Left Key");
 			else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -466,14 +468,14 @@ public class GameMakerController {
 					event.dropComplete(true);
 					gameMakerView.repaint();
 					gameBoardPanel.repaint();
-			
+
 				}
 				event.rejectDrop();
 			} catch (Exception e) {
 				e.printStackTrace();
 				event.rejectDrop();
 			}
-			
+
 			try {
 				if (theView.getSpriteName().isEmpty())
 					JOptionPane.showMessageDialog(null, "Please enter sprite name!!");

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import controller.Utility;
 import event.KeyboardPress;
+import main.Constants;
 import model.SpriteModel;
 
 /**
@@ -42,7 +43,7 @@ public class GameBoardPanel extends JPanel implements Observer {
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.spriteList = new ArrayList<SpriteModel>();
-		this.setPreferredSize(new Dimension(470, 940));
+		this.setPreferredSize(new Dimension(Constants.GAME_BOARD_PANEL_WIDTH, Constants.GAME_BOARD_PANEL_HEIGHT));
 	}
 
 	public void addSprite(SpriteModel sprite) {

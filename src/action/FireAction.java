@@ -28,12 +28,11 @@ public class FireAction implements Action {
 
 	ArrayList<SpriteModel> fireActionSprites = new ArrayList<SpriteModel>();
 
-	static org.apache.logging.log4j.Logger log = LogManager
-			.getLogger(FireAction.class);
-	
+	static org.apache.logging.log4j.Logger log = LogManager.getLogger(FireAction.class);
+
 	public void performAction(SpriteModel sprite) {
-       log.info("FireAction : performAction : Enter");
-       log.debug("FireAction : performAction : sprite : name - "+sprite.getName());
+		log.info("FireAction : performAction : Enter");
+		log.debug("FireAction : performAction : sprite : name - " + sprite.getName());
 		SpriteModel tempSprite;
 		ImageIcon fireActionImage;
 		String[] eventNameSplit;
@@ -45,7 +44,7 @@ public class FireAction implements Action {
 		int x = sprite.getXPosition() + (sprite.getImage().getWidth(null)) / 2;
 		int y = sprite.getYPosition() + (sprite.getImage().getHeight(null)) / 2;
 
-		fireActionImage = new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif"));
+		fireActionImage = new ImageIcon(getClass().getClassLoader().getResource("img/bullet.png"));
 
 		x = x - (fireActionImage.getImage().getWidth(null) / 2);
 		y = y - (fireActionImage.getImage().getHeight(null) / 2);
@@ -53,18 +52,21 @@ public class FireAction implements Action {
 		tempSprite = new SpriteModel("Bullet", x, y, fireActionImage.getImage(), -1, true, eventActionDetails);
 		tempSprite.setRectangleTest(x, y, tempSprite.getImage().getWidth(null), tempSprite.getImage().getHeight(null));
 		fireActionSprites.add(tempSprite);
-		
+
 		log.info("FireAction : performAction : Exit");
 	}
 
 	public void performAction() {
 		log.info("FireAction : performAction() : Enter");
 		ArrayList<SpriteModel> copy = new ArrayList<SpriteModel>(fireActionSprites);
+		int flag = 0;
+
 		if (!fireActionSprites.isEmpty()) {
 			for (SpriteModel sprite : fireActionSprites) {
 				if (sprite.getYPosition() >= 0) {
 					sprite.setYPosition(sprite.getYPosition() + sprite.getYDirection());
-					sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null), sprite.getImage().getHeight(null));
+					sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null),
+							sprite.getImage().getHeight(null));
 				} else {
 					copy.remove(sprite);
 				}
@@ -96,11 +98,17 @@ public class FireAction implements Action {
 						for (Actions actionList : Actions.values()) {
 							if (actionList.name().equalsIgnoreCase(action)) {
 								for (SpriteModel childSprite : fireActionSprites) {
-									actionList.getValue().performAction(sprite1, childSprite);
+									if ((sprite1.getRectangleTest()).intersects(childSprite.getRectangleTest())) {
+										sprite1.setDestroySpriteFlag(true);
+										childSprite.setDestroySpriteFlag(true);
+									}
 								}
 							}
 						}
 
+					}
+					if (!sprite1.isDestroyFlagEnabled()) {
+						flag = 1;
 					}
 				}
 

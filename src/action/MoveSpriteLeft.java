@@ -18,7 +18,7 @@ public class MoveSpriteLeft implements Action {
 	public void performAction(SpriteModel sprite) {
 		log.info("MoveSpriteLeft : performAction : Enter");
 		log.debug("MoveSpriteLeft : performAction : sprite : name - "+sprite.getName());
-		if ((sprite.getXPosition() - 14) > Constants.LEFT_MARGIN.getValue()) {
+		if ((sprite.getXPosition() - 14) > Constants.LEFT_MARGIN ) {
 			sprite.setXPosition(sprite.getXPosition() - 14);
 			sprite.setRectangleTest(sprite.getXPosition(),
 					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),

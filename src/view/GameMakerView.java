@@ -34,7 +34,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.TransferHandler;
 
 import main.Constants;
-import main.GameMaker;
 //import main.TimerObservable;
 import observer.GameBoardPanel;
 import observer.GameClockPanel;
@@ -59,21 +58,27 @@ public class GameMakerView extends JFrame {
 	private JPanel gamePanel = new JPanel();
 	private GameBoardPanel gameBoardPanel = new GameBoardPanel();
 	private GameClockPanel clockPanel = new GameClockPanel();
-	
+
 	public static final DataFlavor DATA_FLAVOUR = new DataFlavor(ImageIcon.class, "Sprite");
-	
+
 	private Image selectedImage;
 
 	private boolean displayFlagView;
 
-	private Object[] imageStrings = new Object[] { new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif")),
+	private Object[] imageStrings = new Object[] { new ImageIcon(getClass().getClassLoader().getResource("img/st2.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/car.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/truck.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/frog.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif")),
 			new ImageIcon(getClass().getClassLoader().getResource("img/paddle.gif")),
-			new ImageIcon(getClass().getClassLoader().getResource("img/tile.gif")),
-	new ImageIcon(getClass().getClassLoader().getResource("img/frog.png")) };
+			new ImageIcon(getClass().getClassLoader().getResource("img/monster1.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/monster2.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/win_game.png")),
+			new ImageIcon(getClass().getClassLoader().getResource("img/tile.gif")) };
 
 	private String[] eventStrings = new String[] { "None", "KeyboardPress", "TimeChange", "Collision" };
 
-	private String[] backgroundImages = new String[] { "None", "Background 1", "Background 2", "Frogger"};
+	private String[] backgroundImages = new String[] { "None", "Background 1", "Background 2", "Frogger", "Background 3" };
 
 	public String[] getBackgroundImages() {
 		return backgroundImages;
@@ -118,20 +123,19 @@ public class GameMakerView extends JFrame {
 	private JTextArea activityTextArea = new JTextArea(5, 20);
 
 	private JLabel backgroundImage = new JLabel();
-	
-	static org.apache.logging.log4j.Logger log = LogManager
-			.getLogger(GameMakerView.class);
-	
+
+	static org.apache.logging.log4j.Logger log = LogManager.getLogger(GameMakerView.class);
+
 	public GameMakerView() {
-        log.info("GameMakerView : Enter");
+		log.info("GameMakerView : Enter");
 		setDisplayFlagView(true);
 
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridLayout(0, 2));
 
-		setSize(Constants.FRAME_WIDTH.getValue(), Constants.FRAME_HEIGHT.getValue());
+		setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		
+
 		userInputpanel.setLayout(new GridLayout(4, 0));
 
 		GridBagLayout layout = new GridBagLayout();
@@ -165,13 +169,11 @@ public class GameMakerView extends JFrame {
 		imagesList.setDropMode(DropMode.USE_SELECTION);
 		imagesList.setDragEnabled(true);
 		JScrollPane scroll = new JScrollPane(imagesList);
-		scroll.setPreferredSize(new Dimension(300, 20));
+		scroll.setPreferredSize(new Dimension(Constants.SPRITE_SELECTOR_SCROLL_WIDTH, Constants.SPRITE_SELECTOR_SCROLL_HEIGHT));
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setVisible(true);
-		
-		spritePanel.add(imagesList, gridBagConstraints);
+		spritePanel.add(scroll, gridBagConstraints);
 
-		gridBagConstraints.gridx = 4;
+		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 10;
 		spritePanel.add(deleteSpriteButton, gridBagConstraints);
 
@@ -278,7 +280,7 @@ public class GameMakerView extends JFrame {
 		userInputpanel.add(eventPanel);
 		userInputpanel.add(buttonPanel);
 
-		this.add(userInputpanel, BorderLayout.WEST);
+		this.add(userInputpanel);
 
 		gamePanel.setLayout(new BorderLayout());
 
@@ -286,18 +288,18 @@ public class GameMakerView extends JFrame {
 		gamePanel.setPreferredSize(new Dimension(560, 930));
 		gamePanel.add(gameBoardPanel, BorderLayout.NORTH);
 
-		this.add(gamePanel, BorderLayout.EAST);
+		this.add(gamePanel);
 
 		gameBoardPanel.setBackgroundImage(new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
-        log.info("GameMakerView : Exit");
+		log.info("GameMakerView : Exit");
 	}
 
 	public void clearUserInput() {
 		log.info("clearUserInput : Enter");
 		spriteName.setText(null);
 		imagesList.setSelectedIndex(0);
-//		spriteXPosition.setText(null);
-//		spriteYPosition.setText(null);
+		// spriteXPosition.setText(null);
+		// spriteYPosition.setText(null);
 		eventsList.setSelectedIndex(0);
 		eventSubTypeList.clearSelection();
 		actionList.clearSelection();
@@ -464,7 +466,7 @@ public class GameMakerView extends JFrame {
 	}
 
 	public void addCreateListener(DropTargetListener de) {
-		
+
 	}
 
 	public void addEventsListener(ActionListener ae) {
@@ -524,13 +526,12 @@ class DropBoxHandler extends TransferHandler {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JList imagesList;
-	
-	static org.apache.logging.log4j.Logger log = LogManager
-			.getLogger(DropBoxHandler.class);
+
+	static org.apache.logging.log4j.Logger log = LogManager.getLogger(DropBoxHandler.class);
 
 	DropBoxHandler(JList imagesList) {
 		log.info("DropBoxHandler : Enter");
-		log.debug("DropBoxHandler : imageListSize -"+imagesList.getComponentCount());
+		log.debug("DropBoxHandler : imageListSize -" + imagesList.getComponentCount());
 		this.imagesList = imagesList;
 		log.info("DropBoxHandler : Exit");
 	}
@@ -549,10 +550,11 @@ class DropBoxHandler extends TransferHandler {
 			public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 				return imagesList.getSelectedValue();
 			}
-			
+
 		};
-		
+
 	}
+
 	@Override
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.COPY;
@@ -570,7 +572,5 @@ class DropBoxHandler extends TransferHandler {
 			return true;
 		}
 	}
-	
-	
-}
 
+}

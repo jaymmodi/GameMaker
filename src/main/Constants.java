@@ -1,33 +1,22 @@
 package main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import event.Event;
 
-//public interface Constants {
-//		int FRAME_WIDTH = 1000;
-//		int FRAME_HEIGHT = 1000;
-//		int GAME_BOARD_PANEL_WIDTH = 470;
-//		int GAME_BOARD_PANEL_HEIGHT = 890;	
-//		int LEFT_MARGIN = 0;
-//		int RIGHT_MARGIN = 530;
-//}
-public enum Constants {
-	FRAME_WIDTH(1000),
-	FRAME_HEIGHT(700),
-	GAME_BOARD_PANEL_WIDTH(470),
-	GAME_BOARD_PANEL_HEIGHT(890),	
-	LEFT_MARGIN(0),
-	RIGHT_MARGIN(530),
-	SPRITE_SELECTOR_SCROLL_WIDTH(300);
+
+public class Constants {
 	
-	private int value;
-	private Constants(int value)
-	{
-		this.value = value;
-	}
+	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	public int getValue()
-	{
-		return this.value;
-	}
-	
+	public static final int FRAME_WIDTH = 1000; 
+	public static final int FRAME_HEIGHT = 1000;
+	public static final int GAME_BOARD_PANEL_WIDTH = 500;
+	public static final int GAME_BOARD_PANEL_HEIGHT = 1000; 
+	public static final int LEFT_MARGIN = 0; 
+	public static final int RIGHT_MARGIN = 530;
+	public static final int SPRITE_SELECTOR_SCROLL_WIDTH = 300;
+	public static final int SPRITE_SELECTOR_SCROLL_HEIGHT = 80;
+
 }

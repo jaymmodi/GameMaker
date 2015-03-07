@@ -13,13 +13,13 @@ public class AutoMoveLeft implements Action{
 	{		
 		log.info("AutoMoveLeft : performAction : Enter");
 		log.debug("AutoMoveLeft : performAction : sprite : name - "+sprite.getName()+", XPosition - "+sprite.getXPosition());
-		if((sprite.getXPosition() - 2) > Constants.LEFT_MARGIN.getValue()){
+		if((sprite.getXPosition() - 2) > Constants.LEFT_MARGIN){
 			sprite.setXPosition(sprite.getXPosition() - 2);
 			sprite.setRectangleTest(sprite.getXPosition(),
 					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
 					(int)sprite.getRectangleTest().getHeight());
 		}else {
-			sprite.setXPosition(Constants.RIGHT_MARGIN.getValue());
+			sprite.setXPosition(Constants.RIGHT_MARGIN);
 		}
 		log.debug("AutoMoveLeft : performAction : sprite : name - "+sprite.getName()+", XPosition updated to - "+sprite.getXPosition());
 		log.info("AutoMoveLeft : performAction : Exit");
