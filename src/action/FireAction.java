@@ -24,7 +24,6 @@ import main.Constants;
 public class FireAction implements Action {
 
 	ArrayList<SpriteModel> fireActionSprites = new ArrayList<SpriteModel>();
-	ArrayList<String> actionList;
 
 	public void performAction(SpriteModel sprite) {
 
@@ -39,12 +38,13 @@ public class FireAction implements Action {
 		for (String eventName : sprite.getEventActionDetails().keySet()) {
 			eventNameSplit = eventName.split("-");
 			if (eventNameSplit[0].equalsIgnoreCase("Collision")) {
-				eventActionDetails.put(eventName, sprite.getEventActionDetails().get(eventName));
+				eventActionDetails.put(eventName, sprite
+						.getEventActionDetails().get(eventName));
 			}
 		}
-		ArrayList<String> tempActionList = new ArrayList<String>();
-		tempActionList.add("AUTOMOVEUP");
-		eventActionDetails.put("TIMECHANGE", tempActionList);
+		// ArrayList<String> tempActionList = new ArrayList<String>();
+		// tempActionList.add("AUTOMOVEUP");
+		// eventActionDetails.put("TIMECHANGE", tempActionList);
 
 		for (Events event : Events.values()) {
 			for (String eventName : eventActionDetails.keySet()) {
@@ -58,22 +58,32 @@ public class FireAction implements Action {
 		int x = sprite.getXPosition() + (sprite.getImage().getWidth(null)) / 2;
 		int y = sprite.getYPosition() + (sprite.getImage().getHeight(null)) / 2;
 
-		fireActionImage = new ImageIcon(getClass().getClassLoader().getResource("img/fire_ball.gif"));
+		fireActionImage = new ImageIcon(getClass().getClassLoader()
+				.getResource("img/fire_ball.gif"));
 
 		x = x - (fireActionImage.getImage().getWidth(null) / 2);
 		y = y - (fireActionImage.getImage().getHeight(null) / 2);
 
-		tempSprite = new SpriteModel("Bullet", x, y, fireActionImage.getImage(), -1, true, eventActionDetails);
+		tempSprite = new SpriteModel("Bullet", x, y,
+				fireActionImage.getImage(), -1, true, eventActionDetails);
 		fireActionSprites.add(tempSprite);
 	}
 
-	
 	public void performAction() {
-		if (!getFireActionSprites().isEmpty()){
-			for (SpriteModel sprite : getFireActionSprites()){
-				sprite.setYPosition(sprite.getYPosition() + sprite.getYDirection());
+
+	ArrayList<SpriteModel> copy = new ArrayList<SpriteModel>(fireActionSprites);
+		if (!fireActionSprites.isEmpty()) {
+			for (SpriteModel sprite : fireActionSprites) {
+				if (sprite.getYPosition() >= 0) {
+					sprite.setYPosition(sprite.getYPosition()
+							+ sprite.getYDirection());
+				} else {
+					copy.remove(sprite);
+				}
 			}
 		}
+		fireActionSprites = copy;
+
 	}
 
 	public ArrayList<SpriteModel> getFireActionSprites() {
