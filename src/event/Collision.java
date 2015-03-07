@@ -13,6 +13,14 @@ public class Collision implements Event {
 	//List of Sprites that have the Collision event
 	private ArrayList<SpriteModel> spriteListeners = new ArrayList<SpriteModel>();
 	
+	public ArrayList<SpriteModel> getSpriteListeners() {
+		return spriteListeners;
+	}
+
+	public void setSpriteListeners(ArrayList<SpriteModel> spriteListeners) {
+		this.spriteListeners = spriteListeners;
+	}
+
 	private Collision() {
 		// Constructor for Singleton Pattern
 	}

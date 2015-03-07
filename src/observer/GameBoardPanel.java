@@ -99,8 +99,11 @@ public class GameBoardPanel extends JPanel implements Observer {
 						if (action.contains("Fire")) {
 							if (!KeyboardPress.getFireAction().getFireActionSprites().isEmpty()) {
 								for (SpriteModel tempSprite : KeyboardPress.getFireAction().getFireActionSprites()) {
-									KeyboardPress.getFireAction().performAction();
-									g.drawImage(tempSprite.getImage(), tempSprite.getXPosition(), tempSprite.getYPosition(), this);
+									if (!(tempSprite.isDestroyFlagEnabled())) {
+										KeyboardPress.getFireAction().performAction();
+										g.drawImage(tempSprite.getImage(), tempSprite.getXPosition(), tempSprite.getYPosition(),
+												this);
+									}
 								}
 							}
 						}

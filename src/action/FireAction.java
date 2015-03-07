@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import controller.Utility;
 import event.AssociateEvent;
+import event.Collision;
 import event.Events;
 import model.SpriteModel;
 import main.Constants;
@@ -48,7 +49,9 @@ public class FireAction implements Action {
 
 		for (Events event : Events.values()) {
 			for (String eventName : eventActionDetails.keySet()) {
-				if (event.name().equals(eventName.toUpperCase())) {
+				eventNameSplit = eventName.split("-");
+				
+				if (event.name().equals(eventNameSplit[0].toUpperCase())) {
 					associateEvent = new AssociateEvent(event.getValue());
 					associateEvent.attachEvent(sprite);
 				}
@@ -83,6 +86,37 @@ public class FireAction implements Action {
 			}
 		}
 		fireActionSprites = copy;
+		SpriteModel sprite2 = new SpriteModel();
+		for (SpriteModel sprite : Collision.getInstance().getSpriteListeners()) {
+
+			HashMap<String, ArrayList<String>> eventActionDetails = sprite.getEventActionDetails();
+			
+			for (String keyEvent : eventActionDetails.keySet()) {
+				String event = keyEvent.split("-")[0].trim();
+				if (event.equals("Collision")) {
+					SpriteModel sprite1 = sprite;
+					String spriteString = keyEvent.split("-")[1].trim();
+					for (SpriteModel secondSprite : Collision.getInstance().getSpriteListeners()) {
+						if (secondSprite.getName().equalsIgnoreCase(
+								spriteString)) {
+							sprite2 = secondSprite;
+							break;
+						}
+					}
+					
+					//For each pair of sprites identify the action to be performed and call the action
+					for (String action : eventActionDetails.get(keyEvent)) {
+						for (Actions actionList : Actions.values()) {
+							if (actionList.name().equalsIgnoreCase(action))
+								actionList.getValue().performAction(sprite1,
+										sprite2);
+						}
+
+					}
+				}
+
+			}
+		}
 
 	}
 

@@ -93,7 +93,7 @@ public class GameMakerView extends JFrame {
 	private int spriteXPosition;
 	private int spriteYPosition;
 
-	private JButton createSpriteButton = new JButton("Create");
+	//private JButton createSpriteButton = new JButton("Create");
 	private JButton deleteSpriteButton = new JButton("Delete");
 	private JButton saveSpriteButton = new JButton("Save");
 	private JButton loadSpriteButton = new JButton("Load");
@@ -193,9 +193,9 @@ public class GameMakerView extends JFrame {
 		gridBagConstraints.gridy = 4;
 		spritePanel.add(spriteYPosition, gridBagConstraints);*/
 
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 10;
-		spritePanel.add(createSpriteButton, gridBagConstraints);
+		//gridBagConstraints.gridx = 0;
+		//gridBagConstraints.gridy = 10;
+		//spritePanel.add(createSpriteButton, gridBagConstraints);
 
 		gridBagConstraints.gridx = 4;
 		gridBagConstraints.gridy = 10;
@@ -261,7 +261,8 @@ public class GameMakerView extends JFrame {
 
 		gridBagConstraints1.gridx = 1;
 		gridBagConstraints1.gridy = 4;
-		eventPanel.add(actionList, gridBagConstraints1);
+		JScrollPane scrollPane = new JScrollPane(actionList);
+		eventPanel.add(scrollPane, gridBagConstraints1);
 
 		gridBagConstraints1.gridx = 1;
 		gridBagConstraints1.gridy = 6;
