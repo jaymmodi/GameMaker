@@ -77,7 +77,8 @@ public class MoveSpriteTest {
 		testArraylist.add("Move");
 		testHashmap.put("Collision", testArraylist);
 
-		testSprite.setDisplayFlagSprite(true);
+	//	testSprite.setDisplayFlagSprite(true);
+		testSprite.setDestroySpriteFlag(true);
 
 		// assert(testSprite.isDisplayFlagSprite());
 
