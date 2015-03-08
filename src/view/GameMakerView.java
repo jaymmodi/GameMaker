@@ -227,7 +227,7 @@ public class GameMakerView extends JFrame {
 
 		gridBagConstraints1.gridx = 1;
 		gridBagConstraints1.gridy = 2;
-		eventPanel.add(eventSubTypeList, gridBagConstraints1);
+		eventPanel.add(new JScrollPane(eventSubTypeList), gridBagConstraints1);
 
 		gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
 		gridBagConstraints1.ipadx = 100;
@@ -273,7 +273,7 @@ public class GameMakerView extends JFrame {
 		gridBagConstraints2.gridy = 5;
 		gridBagConstraints2.gridwidth = 2;
 		activityTextArea.setEditable(false);
-		buttonPanel.add(activityTextArea, gridBagConstraints2);
+		buttonPanel.add(new JScrollPane(activityTextArea), gridBagConstraints2);
 
 		userInputpanel.add(featurePanel);
 		userInputpanel.add(spritePanel);

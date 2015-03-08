@@ -59,7 +59,7 @@ public class FireAction implements Action {
 	public void performAction() {
 		log.info("FireAction : performAction() : Enter");
 		ArrayList<SpriteModel> copy = new ArrayList<SpriteModel>(fireActionSprites);
-		int flag = 0;
+		int checkGameLossFlag = 0;
 
 		if (!fireActionSprites.isEmpty()) {
 			for (SpriteModel sprite : fireActionSprites) {
@@ -98,7 +98,8 @@ public class FireAction implements Action {
 						for (Actions actionList : Actions.values()) {
 							if (actionList.name().equalsIgnoreCase(action)) {
 								for (SpriteModel childSprite : fireActionSprites) {
-									if ((sprite1.getRectangleTest()).intersects(childSprite.getRectangleTest())) {
+									if ((sprite1.getRectangleTest()).intersects(childSprite.getRectangleTest())
+											&& !childSprite.isDestroyFlagEnabled()) {
 										sprite1.setDestroySpriteFlag(true);
 										childSprite.setDestroySpriteFlag(true);
 									}
@@ -108,12 +109,18 @@ public class FireAction implements Action {
 
 					}
 					if (!sprite1.isDestroyFlagEnabled()) {
-						flag = 1;
+						checkGameLossFlag = 1;
 					}
 				}
 
 			}
 		}
+
+		// if all sprite objects got destroyed then game win
+		if (checkGameLossFlag == 0) {
+			Utility.getInstance().setGameFlag(3);
+		}
+
 		log.info("FireAction : performAction() : Exit");
 	}
 
