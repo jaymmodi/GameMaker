@@ -20,7 +20,7 @@ import model.SpriteModel;
 import main.Constants;
 
 /**
- * 
+ * This behavior will be used by the sprite which is supposed to have shooting feature.
  * @author Team 2
  *
  */
@@ -28,7 +28,7 @@ public class FireAction implements Action {
 
 	ArrayList<SpriteModel> fireActionSprites = new ArrayList<SpriteModel>();
 
-	static org.apache.logging.log4j.Logger log = LogManager.getLogger(FireAction.class);
+	private static org.apache.logging.log4j.Logger log = LogManager.getLogger(FireAction.class);
 
 	public void performAction(SpriteModel sprite) {
 		log.info("FireAction : performAction : Enter");
@@ -109,7 +109,7 @@ public class FireAction implements Action {
 
 					}
 					if (!sprite1.isDestroyFlagEnabled()) {
-						checkGameLossFlag = 1;
+						checkGameLossFlag = ActionConstants.GAME_FLAG_PROGRESS.getOffsetValue();
 					}
 				}
 
@@ -118,7 +118,7 @@ public class FireAction implements Action {
 
 		// if all sprite objects got destroyed then game win
 		if (checkGameLossFlag == 0) {
-			Utility.getInstance().setGameFlag(3);
+			Utility.getInstance().setGameFlag(ActionConstants.GAME_FLAG_WIN.getOffsetValue());
 		}
 
 		log.info("FireAction : performAction() : Exit");

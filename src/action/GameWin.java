@@ -15,7 +15,7 @@ import model.SpriteModel;
  *
  */
 public class GameWin implements Action {
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(GameWin.class);
 	/*
 	 * performs disappear action on one sprite when on collision with associated
@@ -32,7 +32,7 @@ public class GameWin implements Action {
 		log.debug("GameWin : performAction : sprite2 : name - "+sprite2.getName());
 		if ((sprite1.getRectangleTest()).intersects(sprite2.getRectangleTest())) {
 			sprite1.setDestroySpriteFlag(true);
-			Utility.getInstance().setGameFlag(3);
+			Utility.getInstance().setGameFlag(ActionConstants.GAME_FLAG_WIN.getOffsetValue());
 		}
 		log.info("GameWin : performAction : Exit");
 

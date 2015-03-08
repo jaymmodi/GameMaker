@@ -36,7 +36,7 @@ public class PlaySound implements Action{
 		}
 		
 		//Play Sound during Game Win
-		if(Utility.getInstance().getGameFlag() == 3)
+		if(Utility.getInstance().getGameFlag() == ActionConstants.GAME_FLAG_WIN.getOffsetValue())
 		{
 			try {
 				File soundFile = new File(getClass().getClassLoader().getResource("sounds/clap.wav").toURI());

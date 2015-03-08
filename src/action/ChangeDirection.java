@@ -14,9 +14,9 @@ import model.SpriteModel;
  */
 public class ChangeDirection implements Action {
 
-	private boolean UnittestFlag = false;
+	private boolean unitTestFlag = false;
 
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(ChangeDirection.class);
 	/*
 	 * performs the change direction action for a sprite on collision with
@@ -42,34 +42,34 @@ public class ChangeDirection implements Action {
 
 				// Collision points are checked and the sprite is getting
 				// deflected accordingly
-				int first = sprite2Position + 8;
-				int second = sprite2Position + 16;
-				int third = sprite2Position + 24;
-				int fourth = sprite2Position + 32;
+				int first = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_1.getOffsetValue();
+				int second = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_2.getOffsetValue();
+				int third = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_3.getOffsetValue();
+				int fourth = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_4.getOffsetValue();
 
 				if (sprite1Position < first) {
-					sprite1.setXDirection(-1);
-					sprite1.setYDirection(-1);
+					sprite1.setXDirection(ActionConstants.NEGATIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue());
 				}
 
 				if (sprite1Position >= first && sprite1Position < second) {
-					sprite1.setXDirection(-1);
-					sprite1.setYDirection(-1 * sprite1.getYDirection());
+					sprite1.setXDirection(ActionConstants.NEGATIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue() * sprite1.getYDirection());
 				}
 
 				if (sprite1Position >= second && sprite1Position < third) {
-					sprite1.setXDirection(0);
-					sprite1.setYDirection(-1);
+					sprite1.setXDirection(ActionConstants.NO_CHANGE.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue());
 				}
 
 				if (sprite1Position >= third && sprite1Position < fourth) {
-					sprite1.setXDirection(1);
-					sprite1.setYDirection(-1 * sprite1.getYDirection());
+					sprite1.setXDirection(ActionConstants.POSITIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue() * sprite1.getYDirection());
 				}
 
 				if (sprite1Position > fourth) {
-					sprite1.setXDirection(1);
-					sprite1.setYDirection(-1);
+					sprite1.setXDirection(ActionConstants.POSITIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue());
 				}
 
 			}
@@ -86,34 +86,34 @@ public class ChangeDirection implements Action {
 
 				// Collision points are checked and the sprite is getting
 				// deflected accordingly
-				int first = sprite2Position + 8;
-				int second = sprite2Position + 16;
-				int third = sprite2Position + 24;
-				int fourth = sprite2Position + 32;
+				int first = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_1.getOffsetValue();
+				int second = sprite2Position +  ActionConstants.COLLISION_VARIANT_TYPE_2.getOffsetValue();
+				int third = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_3.getOffsetValue();
+				int fourth = sprite2Position + ActionConstants.COLLISION_VARIANT_TYPE_4.getOffsetValue();
 
 				if (sprite1Position < first) {
-					sprite1.setXDirection(-1);
-					sprite1.setYDirection(-1);
+					sprite1.setXDirection(ActionConstants.NEGATIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue());
 				}
 
 				if (sprite1Position >= first && sprite1Position < second) {
-					sprite1.setXDirection(-1);
-					sprite1.setYDirection(-1 * sprite1.getYDirection());
+					sprite1.setXDirection(ActionConstants.NEGATIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue() * sprite1.getYDirection());
 				}
 
 				if (sprite1Position >= second && sprite1Position < third) {
 					sprite1.setXDirection(0);
-					sprite1.setYDirection(-1);
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue());
 				}
 
 				if (sprite1Position >= third && sprite1Position < fourth) {
-					sprite1.setXDirection(1);
-					sprite1.setYDirection(-1 * sprite1.getYDirection());
+					sprite1.setXDirection(ActionConstants.POSITIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue() * sprite1.getYDirection());
 				}
 
 				if (sprite1Position > fourth) {
-					sprite1.setXDirection(1);
-					sprite1.setYDirection(-1);
+					sprite1.setXDirection(ActionConstants.POSITIVE_X_DIRECTION.getOffsetValue());
+					sprite1.setYDirection(ActionConstants.NEGATIVE_Y_DIRECTION.getOffsetValue());
 				}
 
 			}
@@ -128,10 +128,10 @@ public class ChangeDirection implements Action {
 	}
 
 	public boolean isUnittestFlag() {
-		return UnittestFlag;
+		return unitTestFlag;
 	}
 
-	public void setUnittestFlag(boolean unittestFlag) {
-		UnittestFlag = unittestFlag;
+	public void setUnittestFlag(boolean unitTestFlag) {
+		unitTestFlag = unitTestFlag;
 	}
 }

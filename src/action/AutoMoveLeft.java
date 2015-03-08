@@ -5,16 +5,20 @@ import org.apache.logging.log4j.LogManager;
 import main.Constants;
 import model.SpriteModel;
 
-//Move the Sprite left when keyboard left arrow is pressed
+/**
+ * This class has the implementation of the logic for moving the sprite left . It is an auto event
+ * so sprite will move left all the time. Also, when it hits the left bound of the screen then 
+ * it will be repositioned to right most position the screen and will follow the movement from there.
+ * */
 public class AutoMoveLeft implements Action{
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(AutoMoveLeft.class);
 	public void performAction(SpriteModel sprite)
 	{		
 		log.info("AutoMoveLeft : performAction : Enter");
 		log.debug("AutoMoveLeft : performAction : sprite : name - "+sprite.getName()+", XPosition - "+sprite.getXPosition());
-		if((sprite.getXPosition() - 2) > Constants.LEFT_MARGIN){
-			sprite.setXPosition(sprite.getXPosition() - 2);
+		if((sprite.getXPosition() - ActionConstants.X_VARIANT_OFFSET.getOffsetValue()) > Constants.LEFT_MARGIN){
+			sprite.setXPosition(sprite.getXPosition() - ActionConstants.X_VARIANT_OFFSET.getOffsetValue());
 			sprite.setRectangleTest(sprite.getXPosition(),
 					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
 					(int)sprite.getRectangleTest().getHeight());

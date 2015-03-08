@@ -13,12 +13,12 @@ import model.SpriteModel;
 import main.Constants;
 
 /**
- * 
+ *
  * @author Team 2
  *
  */
 public class MoveSprite implements Action {
-	static org.apache.logging.log4j.Logger log = LogManager.getLogger(MoveSprite.class);
+	private static org.apache.logging.log4j.Logger log = LogManager.getLogger(MoveSprite.class);
 
 	boolean UnitTestFlag = false;
 
@@ -35,21 +35,21 @@ public class MoveSprite implements Action {
 		}
 
 		if (sprite.getXPosition() == Constants.LEFT_MARGIN) {
-			sprite.setXDirection(1);
+			sprite.setXDirection(ActionConstants.POSITIVE_X_DIRECTION.getOffsetValue());
 		}
 
 		if (sprite.getXPosition() == Constants.RIGHT_MARGIN) {
-			sprite.setXDirection(-1);
+			sprite.setXDirection(ActionConstants.NEGATIVE_X_DIRECTION.getOffsetValue());
 		}
 
 		if (sprite.getYPosition() == Constants.LEFT_MARGIN) {
-			sprite.setYDirection(1);
+			sprite.setYDirection(ActionConstants.POSITIVE_X_DIRECTION.getOffsetValue());
 		}
 
 		if (isUnitTestFlag() == false) {
 			// To account for Game Lost condition
-			if (sprite.getRectangle(sprite).getMaxY() > 600) {
-				Utility.getInstance().setGameFlag(2);
+			if (sprite.getRectangle(sprite).getMaxY() > ActionConstants.LAYOUT_UPPER_BOUND.getOffsetValue()) {
+				Utility.getInstance().setGameFlag(ActionConstants.GAME_FLAG_LOSS.getOffsetValue());
 				try {
 					File soundFile = new File(getClass().getClassLoader().getResource("sounds/lost.wav").toURI());
 					System.out.println(soundFile);
