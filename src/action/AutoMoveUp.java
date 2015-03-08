@@ -21,7 +21,6 @@ public class AutoMoveUp implements Action{
 		log.debug("AutoMoveUp : performAction : sprite : name - "+sprite.getName()+" ,YPosition - "+sprite.getYPosition());
 		if((sprite.getYPosition() - 2) > Constants.LEFT_MARGIN){
 			sprite.setYPosition(sprite.getYPosition() - 2);
-			sprite.setRectangleTest(sprite.getXPosition(), sprite.getYPosition(), sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
 			sprite.setRectangleTest(sprite.getXPosition(),
 					sprite.getYPosition(), (int)sprite.getRectangleTest().getWidth(),
 					(int)sprite.getRectangleTest().getHeight());	
