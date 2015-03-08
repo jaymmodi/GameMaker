@@ -86,6 +86,7 @@ public class GameBoardPanel extends JPanel implements Observer {
 			Font fontOfDisplayString = new Font("Dialog", Font.BOLD, 24);
 			g.setFont(fontOfDisplayString);
 			g.drawString("YOU WON !! GAME OVER", 100, 200);
+			
 		}
 
 		// When the Game continues
@@ -98,8 +99,8 @@ public class GameBoardPanel extends JPanel implements Observer {
 				if (sprite.getEventActionDetails().containsKey("KeyboardPress")) {
 					for (String action : sprite.getEventActionDetails().get("KeyboardPress")) {
 						if (action.contains("Fire")) {
-							if (!KeyboardPress.getFireAction().getFireActionSprites().isEmpty()) {
-								for (SpriteModel tempSprite : KeyboardPress.getFireAction().getFireActionSprites()) {
+							if (!KeyboardPress.getInstance().getFireAction().getFireActionSprites().isEmpty()) {
+								for (SpriteModel tempSprite : KeyboardPress.getInstance().getFireAction().getFireActionSprites()) {
 									if (!(tempSprite.isDestroyFlagEnabled())) {
 										KeyboardPress.getFireAction().performAction();
 										g.drawImage(tempSprite.getImage(), tempSprite.getXPosition(), tempSprite.getYPosition(),
