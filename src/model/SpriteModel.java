@@ -9,12 +9,8 @@ import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 
-import controller.GameMakerController;
-
-//import javafx.beans.binding.SetBinding;
-
 public class SpriteModel implements Serializable {
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(SpriteModel.class);
 	/**
 	 * 
@@ -34,20 +30,25 @@ public class SpriteModel implements Serializable {
 
 	transient private Image image;
 
-	HashMap<String, ArrayList<String>> eventActionDetails = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, ArrayList<String>> eventActionDetails = new HashMap<String, ArrayList<String>>();
 
+	/**
+	 * Constructor for SpriteModel
+	 */
 	public SpriteModel(String name, int xPosition, int yPosition, Image image,
 			int spriteImageIndicator, boolean diplayFlag,
 			HashMap<String, ArrayList<String>> eventActionDetails) {
 		log.info("SpriteModel : Enter");
-		log.debug("SpriteModel : data : name - "+name+" , xPosition - "+xPosition+", yPosition - "+yPosition+
-				" , spriteImageIndicator - "+spriteImageIndicator+" , diplayFlag - "+diplayFlag);
+		log.debug("SpriteModel : data : name - " + name + " , xPosition - "
+				+ xPosition + ", yPosition - " + yPosition
+				+ " , spriteImageIndicator - " + spriteImageIndicator
+				+ " , diplayFlag - " + diplayFlag);
 		this.spriteID = UUID.randomUUID();
 		setXPosition(xPosition);
 		setYPosition(yPosition);
 		this.image = image;
 		setName(name);
-		setDisplayFlagSprite(diplayFlag);
+		//setDisplayFlagSprite(diplayFlag);
 		setEventActionDetails(eventActionDetails);
 		setImagePathIndicator(spriteImageIndicator);
 		this.eventActionDetails.putAll(eventActionDetails);
@@ -101,7 +102,7 @@ public class SpriteModel implements Serializable {
 		return eventActionDetails;
 	}
 
-	public void setEventActionDetails(HashMap eventActionDetails) {
+	public void setEventActionDetails(HashMap<String, ArrayList<String>> eventActionDetails) {
 		this.eventActionDetails.putAll(eventActionDetails);
 	}
 
@@ -117,6 +118,9 @@ public class SpriteModel implements Serializable {
 		return spriteID;
 	}
 
+	/**
+	 *  This method returns the object of the Rectangle class used to find collision with other sprites.
+	 */
 	public Rectangle getRectangle(SpriteModel sprite) {
 		Rectangle imageRectangle = new Rectangle(sprite.getXPosition(),
 				sprite.getYPosition(), sprite.getImage().getWidth(null), sprite
@@ -128,8 +132,9 @@ public class SpriteModel implements Serializable {
 		return destroySpriteFlag;
 	}
 
-	public void setDisplayFlagSprite(boolean displayFlagSprite) {
-	}
+	/*public void setDisplayFlagSprite(boolean displayFlagSprite) {
+		this.
+	}*/
 
 	public Rectangle getRectangle() {
 		return new Rectangle(xPosition, yPosition, image.getWidth(null),
