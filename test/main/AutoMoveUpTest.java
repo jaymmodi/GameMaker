@@ -32,7 +32,7 @@ public class AutoMoveUpTest {
 	public void testPerformActionSpriteModelNotWithinFrame() {
 		sprite.setYPosition(-600);
 		autoMoveUp.performAction(sprite);
-		assertEquals(890, sprite.getYPosition());
+		assertEquals(1000, sprite.getYPosition());
 	
 	}
 

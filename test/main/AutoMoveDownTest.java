@@ -29,7 +29,7 @@ public class AutoMoveDownTest {
 
 	@Test
 	public void testPerformActionSpriteModelNotWithinFrame() {
-		sprite.setYPosition(900);
+		sprite.setYPosition(1100);
 		autoMoveDown.performAction(sprite);
 		assertEquals(0, sprite.getYPosition());
 	}
