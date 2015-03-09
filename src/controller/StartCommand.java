@@ -15,7 +15,7 @@ import model.TimerObservable;
  */
 
 public class StartCommand implements Command {
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(StartCommand.class);
 	private Object currReceiver;
 	private TimerObservable timerObsv;

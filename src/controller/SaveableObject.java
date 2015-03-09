@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import model.SpriteModel;
 
 public class SaveableObject implements Serializable {
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(SaveableObject.class);
 	/**
 	 * 
@@ -19,6 +19,8 @@ public class SaveableObject implements Serializable {
 	private boolean timerCheckIndicator;
 	private int backgroundImageIndicator;
 
+	/*  This method only sets the object to be saved.
+	 */
 	public SaveableObject() {
 		log.info("SaveableObject : SaveableObject() : Enter");
 		if(null!= spriteList){

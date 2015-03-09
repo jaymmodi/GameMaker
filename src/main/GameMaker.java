@@ -14,7 +14,7 @@ import controller.GameMakerController;
  */
 public class GameMaker {
 	
-	static org.apache.logging.log4j.Logger log = LogManager
+	private static org.apache.logging.log4j.Logger log = LogManager
 			.getLogger(GameMaker.class);
 
 	public static void main(String[] args) {

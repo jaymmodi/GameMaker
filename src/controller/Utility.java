@@ -1,6 +1,10 @@
 package controller;
 
+/**
+ *  This class only has one variable gameFLag.
+ */
 public class Utility {
+	
 	private static Utility instance;
 	private int gameFlag;
 	private Utility()

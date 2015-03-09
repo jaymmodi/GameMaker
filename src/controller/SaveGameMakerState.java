@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class SaveGameMakerState implements Serializable{
+import org.apache.logging.log4j.LogManager;
 
+public class SaveGameMakerState implements Serializable{
+	private static org.apache.logging.log4j.Logger log = LogManager
+			.getLogger(SaveGameMakerState.class);
 	/**
 	 * 
 	 */
@@ -49,6 +52,9 @@ public class SaveGameMakerState implements Serializable{
 		this.fileOutputStream = fileOutputStream;
 	}
 
+	/*
+	 * This method handles all the save functionality
+	 */
 	public void save() {
 		try {
 			fileOutputStream = new FileOutputStream(getFileName());
@@ -57,7 +63,9 @@ public class SaveGameMakerState implements Serializable{
 			objectOutputStream.close();
 			fileOutputStream.close();
 		} catch (FileNotFoundException e) {
+			log.error("File Not found exception for save file");
 		} catch (IOException e) {
+			log.error("IOException in SaveGameMakerState class");
 		}
 
 	}

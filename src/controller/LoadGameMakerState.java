@@ -21,6 +21,7 @@ public class LoadGameMakerState implements Serializable {
 
 	private String fileName;
 
+	
 	public LoadGameMakerState() {
 		log.info("LoadGameMakerState : LoadGameMakerState() : Enter");
 		this.saveableObject = null;
@@ -28,6 +29,8 @@ public class LoadGameMakerState implements Serializable {
 		log.info("LoadGameMakerState : LoadGameMakerState() : Exit");
 	}
 
+	/*	 This method handles the load functionality of the game.  
+	 */
 	public SaveableObject load() {
 		log.info("LoadGameMakerState : load : Enter");
 		try {
@@ -38,8 +41,11 @@ public class LoadGameMakerState implements Serializable {
 			objectInputStream.close();
 			fileInputStream.close();
 		} catch (FileNotFoundException e) {
+			log.error("FileNotFoundException for load object");
 		} catch (ClassNotFoundException e) {
+			log.error("ClassNotFoundException");
 		} catch (IOException e) {
+			log.error("IOException in Load method");
 		}
 		log.info("LoadGameMakerState : load : Exit");
 		return saveableObject;

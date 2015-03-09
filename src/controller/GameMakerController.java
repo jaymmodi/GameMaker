@@ -11,10 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Observer;
 
@@ -22,21 +19,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import org.apache.logging.log4j.LogManager;
-
-import main.GameMaker;
 import model.SpriteModel;
 import model.TimerObservable;
 import observer.GameBoardPanel;
+
+import org.apache.logging.log4j.LogManager;
+
 import view.GameMakerView;
 import event.AssociateEvent;
 import event.Events;
 import event.KeyboardPress;
 
-@SuppressWarnings("serial")
 public class GameMakerController {
 
-	private GameMakerView theView;
+	private GameMakerView gameMakerView;
 	private SaveableObject saveableObject;
 	private SaveGameMakerState saveGameMakerState;
 	private LoadGameMakerState loadGameMakerState;
@@ -58,19 +54,19 @@ public class GameMakerController {
 		this.saveGameMakerState = new SaveGameMakerState();
 		this.loadGameMakerState = new LoadGameMakerState();
 
-		this.theView = theView;
-		this.theView.addAssociateListener(new AssociateListener());
-		this.theView.addCreateListener(new CreateSpriteListener(theView, theView.getGameBoardPanel()));
-		this.theView.addDeleteListener(new DeleteSpriteListener());
-		this.theView.addEventsListener(new EventsListener());
-		this.theView.addSaveSpriteListener(new SaveSpriteListener());
-		this.theView.addLoadSpriteListener(new LoadSpriteLister());
+		this.gameMakerView = theView;
+		this.gameMakerView.addAssociateListener(new AssociateListener());
+		this.gameMakerView.addCreateListener(new CreateSpriteListener(theView, theView.getGameBoardPanel()));
+		this.gameMakerView.addDeleteListener(new DeleteSpriteListener());
+		this.gameMakerView.addEventsListener(new EventsListener());
+		this.gameMakerView.addSaveSpriteListener(new SaveSpriteListener());
+		this.gameMakerView.addLoadSpriteListener(new LoadSpriteLister());
 
-		this.theView.addClockCheckBoxListener(new ClockCheckBoxListener());
-		this.theView.addBackgroundsListener(new BackgroundsListener());
+		this.gameMakerView.addClockCheckBoxListener(new ClockCheckBoxListener());
+		this.gameMakerView.addBackgroundsListener(new BackgroundsListener());
 
-		this.theView.addPlayGameListener(new PlayGameListener());
-		this.theView.getGameBoardPanel().addKeyListener(new KeyBoardListener());
+		this.gameMakerView.addPlayGameListener(new PlayGameListener());
+		this.gameMakerView.getGameBoardPanel().addKeyListener(new KeyBoardListener());
 
 		this.saveGameMakerState = new SaveGameMakerState();
 		this.saveableObject = new SaveableObject();
@@ -86,6 +82,10 @@ public class GameMakerController {
 		log.info("GameMakerController : Exit");
 	}
 
+	/*
+	 * This method is to hard code every background image on view. This is again used while saving the instance of the game.
+	 *
+	 */
 	public void populateSpriteImageMap(HashMap<Integer, String> imagePathMap) {
 		log.info("GameMakerController : populateSpriteImageMap : Enter");
 		imagePathMap.put(0, "img/fire_ball.gif");
@@ -95,18 +95,10 @@ public class GameMakerController {
 		log.info("GameMakerController : populateSpriteImageMap : Exit");
 	}
 
-	// public void populateImages(){
-	// File dir = new File(".");
-	// gameList = new ArrayList<File>(Arrays.asList(dir.listFiles(new
-	// FilenameFilter() {
-	// @Override
-	// public boolean accept(File dir, String name) {
-	// return name.endsWith(".ser"); // or something else
-	// }
-	// }
-	// }
-	//
-
+	/*
+	 * This method is to hard code every background image on view. This is again used while saving the instance of the game.
+	 *
+	 */
 	public void populateBackgroundImageMap(HashMap<Integer, String> backgroudImagePathMap) {
 		log.info("GameMakerController : populateBackgroundImageMap : Enter");
 		backgroudImagePathMap.put(0, "img/default_background.png");
@@ -117,80 +109,78 @@ public class GameMakerController {
 
 	}
 
+	/*
+	 * This method is to change the state of the game when the game is reached game win or game loose state.
+	 *
+	 */
 	public void changeGamePanelViewForWinLost(int gameFlag) {
 		log.info("GameMakerController : changeGamePanelViewForWinLost : Enter");
 		log.debug("GameMakerController : changeGamePanelViewForWinLost : gameFlag - " + gameFlag);
 		if ((gameFlag == 2) || (gameFlag == 3)) {
-			theView.getGameBoardPanel().repaint();
+			gameMakerView.getGameBoardPanel().repaint();
 		}
 		log.info("GameMakerController : changeGamePanelViewForWinLost : Exit");
 	}
 
-	// class CreateSpriteListener implements ActionListener {
-	//
-	// @Override
-	// public void actionPerformed(ActionEvent e) {
-	//
-	// }
-	// }
 
 	class AssociateListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logAL = LogManager.getLogger(AssociateListener.class);
 
+		@SuppressWarnings({ "unchecked"})
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			logAL.info("AssociateListener : actionPerformed : Enter");
-			String eventName;
+			final String eventName;
 			ArrayList<String> actionList = new ArrayList<String>();
 			eventActionDetails = sprite.getEventActionDetails();
 			try {
-				if (theView.getEventsList().getSelectedItem().toString().equals("None"))
+				if (gameMakerView.getEventsList().getSelectedItem().toString().equals("None"))
 					JOptionPane.showMessageDialog(null, "Select event from the event list!!");
-				else if (theView.getActionList().isSelectionEmpty())
+				else if (gameMakerView.getActionList().isSelectionEmpty())
 					JOptionPane.showMessageDialog(null, "Select action from the action list!!");
 				if (flag == 0) {
-					theView.getActivityTextArea().append(theView.getSpriteName());
+					gameMakerView.getActivityTextArea().append(gameMakerView.getSpriteName());
 					flag = 1;
 				}
-				if (theView.getEventSubTypeList().isSelectionEmpty()) {
-					theView.getActivityTextArea().append("\n" + theView.getEventSelected() + "->" + theView.getActionSelected());
-					eventName = theView.getEventSelected();
+				if (gameMakerView.getEventSubTypeList().isSelectionEmpty()) {
+					gameMakerView.getActivityTextArea().append("\n" + gameMakerView.getEventSelected() + "->" + gameMakerView.getActionSelected());
+					eventName = gameMakerView.getEventSelected();
 				} else {
-					theView.getActivityTextArea().append(
-							"\n" + theView.getEventSelected() + "->" + theView.getEventSubTypeSelected() + "->"
-									+ theView.getActionSelected());
+					gameMakerView.getActivityTextArea().append(
+							"\n" + gameMakerView.getEventSelected() + "->" + gameMakerView.getEventSubTypeSelected() + "->"
+									+ gameMakerView.getActionSelected());
 
-					eventName = theView.getEventSelected() + "-" + theView.getEventSubTypeSelected();
+					eventName = gameMakerView.getEventSelected() + "-" + gameMakerView.getEventSubTypeSelected();
 				}
 
 				logAL.debug("AssociateListener : actionPerformed : eventName - " + eventName);
 				if (eventActionDetails.containsKey(eventName))
 					actionList = eventActionDetails.get(eventName);
 
-				actionList.add(theView.getActionSelected());
+				actionList.add(gameMakerView.getActionSelected());
 				eventActionDetails.put(eventName, actionList);
 
 				sprite.setEventActionDetails(eventActionDetails);
 
 				for (Events event : Events.values()) {
-					if (event.name().equals(theView.getEventSelected().toUpperCase())) {
+					if (event.name().equals(gameMakerView.getEventSelected().toUpperCase())) {
 						associateEvent = new AssociateEvent(event.getValue());
 						associateEvent.attachEvent(sprite);
 					}
 				}
 
-				if (!(theView.getEventSubTypeList().isSelectionEmpty())) {
-					for (SpriteModel sprite1 : theView.getGameBoardPanel().getSpriteList()) {
-						if (sprite1.getName().equalsIgnoreCase(theView.getEventSubTypeSelected()))
+				if (!(gameMakerView.getEventSubTypeList().isSelectionEmpty())) {
+					for (SpriteModel sprite1 : gameMakerView.getGameBoardPanel().getSpriteList()) {
+						if (sprite1.getName().equalsIgnoreCase(gameMakerView.getEventSubTypeSelected()))
 							associateEvent.attachEvent(sprite1);
 					}
 				}
 
-				theView.getPlayGameButton().setEnabled(true);
+				gameMakerView.getPlayGameButton().setEnabled(true);
 
-				theView.getEventsList().setSelectedIndex(0);
-				theView.getEventSubTypeList().setListData(new Object[0]);
-				theView.getActionList().setListData(new Object[0]);
+				gameMakerView.getEventsList().setSelectedIndex(0);
+				gameMakerView.getEventSubTypeList().setListData(new Object[0]);
+				gameMakerView.getActionList().setListData(new Object[0]);
 			} catch (Exception ex) {
 
 			}
@@ -199,6 +189,10 @@ public class GameMakerController {
 
 	}
 
+	/*
+	 * Delete Button Listener
+	 *
+	 */
 	class DeleteSpriteListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logDSL = LogManager.getLogger(DeleteSpriteListener.class);
 
@@ -206,18 +200,22 @@ public class GameMakerController {
 		public void actionPerformed(ActionEvent e) {
 			logDSL.info("DeleteSpriteListener : actionPerformed : Enter");
 			try {
-				logDSL.info("DeleteSpriteListener : actionPerformed : spriteName being deleted - " + theView.getSpriteName());
-				theView.getGameBoardPanel().removeSprite(theView.getSpriteName());
-				theView.clearUserInput();
-				spriteNames.remove(theView.getSpriteName());
-				theView.getGameBoardPanel().repaint();
+				logDSL.info("DeleteSpriteListener : actionPerformed : spriteName being deleted - " + gameMakerView.getSpriteName());
+				gameMakerView.getGameBoardPanel().removeSprite(gameMakerView.getSpriteName());
+				gameMakerView.clearUserInput();
+				spriteNames.remove(gameMakerView.getSpriteName());
+				gameMakerView.getGameBoardPanel().repaint();
 			} catch (Exception ex) {
-				theView.displayErrorMessage(ex.toString());
+				gameMakerView.displayErrorMessage(ex.toString());
 			}
 			logDSL.info("DeleteSpriteListener : actionPerformed : Exit");
 		}
 	}
 
+	/*
+	 * ClockCheckBox Button Listener
+	 *
+	 */
 	class ClockCheckBoxListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logCCL = LogManager.getLogger(ClockCheckBoxListener.class);
 
@@ -227,24 +225,28 @@ public class GameMakerController {
 				JCheckBox cb = (JCheckBox) event.getSource();
 				if (cb.isSelected()) {
 					saveableObject.setTimerCheckIndicator(true);
-					theView.getGameBoardPanel().setPreferredSize(new Dimension(470, 890));
-					theView.getGamePanel().add(theView.getGameBoardPanel(), BorderLayout.NORTH);
-					theView.getGamePanel().add(theView.getClockPanel(), BorderLayout.SOUTH);
-					theView.getGamePanel().validate();
+					gameMakerView.getGameBoardPanel().setPreferredSize(new Dimension(470, 890));
+					gameMakerView.getGamePanel().add(gameMakerView.getGameBoardPanel(), BorderLayout.NORTH);
+					gameMakerView.getGamePanel().add(gameMakerView.getClockPanel(), BorderLayout.SOUTH);
+					gameMakerView.getGamePanel().validate();
 				} else {
 					saveableObject.setTimerCheckIndicator(false);
-					theView.getGamePanel().remove(theView.getClockPanel());
-					theView.getGameBoardPanel().setPreferredSize(new Dimension(470, 940));
-					theView.getGamePanel().add(theView.getGameBoardPanel());
-					theView.validate();
+					gameMakerView.getGamePanel().remove(gameMakerView.getClockPanel());
+					gameMakerView.getGameBoardPanel().setPreferredSize(new Dimension(470, 940));
+					gameMakerView.getGamePanel().add(gameMakerView.getGameBoardPanel());
+					gameMakerView.validate();
 				}
 			} catch (Exception ex) {
-				theView.displayErrorMessage(ex.toString());
+				gameMakerView.displayErrorMessage(ex.toString());
 			}
 			logCCL.info("ClockCheckBoxListener : actionPerformed : Exit");
 		}
 	}
 
+	/*
+	 * Background Button Listener
+	 *
+	 */
 	class BackgroundsListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logBL = LogManager.getLogger(BackgroundsListener.class);
 
@@ -255,30 +257,30 @@ public class GameMakerController {
 			// 1 : Background Setting 1
 			// 2 : Background Setting 2
 			try {
-				if (theView.getBackgroundSelected().equals("Background 1")) {
-					theView.getGameBoardPanel().setBackgroundImage(
+				if (gameMakerView.getBackgroundSelected().equals("Background 1")) {
+					gameMakerView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/background1.png")));
 					saveableObject.setBackgroundImageIndicator(1);
-				} else if (theView.getBackgroundSelected().equals("Background 2")) {
-					theView.getGameBoardPanel().setBackgroundImage(
+				} else if (gameMakerView.getBackgroundSelected().equals("Background 2")) {
+					gameMakerView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/background2.png")));
 					saveableObject.setBackgroundImageIndicator(2);
-				} else if (theView.getBackgroundSelected().equals("Frogger")) {
-					theView.getGameBoardPanel().setBackgroundImage(
+				} else if (gameMakerView.getBackgroundSelected().equals("Frogger")) {
+					gameMakerView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/Frogger.png")));
 					saveableObject.setBackgroundImageIndicator(3);
-				} else if (theView.getBackgroundSelected().equals("Background 3")) {
-					theView.getGameBoardPanel().setBackgroundImage(
+				} else if (gameMakerView.getBackgroundSelected().equals("Background 3")) {
+					gameMakerView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/background3.png")));
 					saveableObject.setBackgroundImageIndicator(3);
 				} else {
-					theView.getGameBoardPanel().setBackgroundImage(
+					gameMakerView.getGameBoardPanel().setBackgroundImage(
 							new ImageIcon(getClass().getClassLoader().getResource("img/default_background.png")));
 					saveableObject.setBackgroundImageIndicator(0);
 				}
-				theView.getGamePanel().add(theView.getGameBoardPanel());
-				theView.getGameBoardPanel().repaint();
-				theView.validate();
+				gameMakerView.getGamePanel().add(gameMakerView.getGameBoardPanel());
+				gameMakerView.getGameBoardPanel().repaint();
+				gameMakerView.validate();
 
 			} catch (Exception ex) {
 
@@ -288,13 +290,18 @@ public class GameMakerController {
 
 	}
 
+	/*
+	 * Events Button Listener
+	 *
+	 */
 	class EventsListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logEL = LogManager.getLogger(EventsListener.class);
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			logEL.info("EventsListener : actionPerformed : Enter");
-			logEL.info("EventsListener : actionPerformed : event selected - " + theView.getEventSelected());
+			logEL.info("EventsListener : actionPerformed : event selected - " + gameMakerView.getEventSelected());
 			try {
 
 				String[] collisionEventSubType = spriteNames.toArray(new String[spriteNames.size()]);
@@ -303,27 +310,31 @@ public class GameMakerController {
 				String[] keyboardAction = new String[] { "LeftMove", "RightMove", "UpMove", "DownMove", "Fire" };
 				String[] timeChangeAction = new String[] { "Move", "AutoMoveLeft", "AutoMoveRight", "AutoMoveUp", "AutoMoveDown" };
 
-				if (theView.getEventSelected() == "Collision") {
-					theView.getEventSubTypeList().setListData(collisionEventSubType);
-					theView.getActionList().setListData(collisionAction);
-				} else if (theView.getEventSelected() == "KeyboardPress") {
-					theView.getEventSubTypeList().setListData(new Object[0]);
-					theView.getActionList().setListData(keyboardAction);
-				} else if (theView.getEventSelected() == "TimeChange") {
-					theView.getEventSubTypeList().setListData(new Object[0]);
-					theView.getActionList().setListData(timeChangeAction);
+				if (gameMakerView.getEventSelected() == "Collision") {
+					gameMakerView.getEventSubTypeList().setListData(collisionEventSubType);
+					gameMakerView.getActionList().setListData(collisionAction);
+				} else if (gameMakerView.getEventSelected() == "KeyboardPress") {
+					gameMakerView.getEventSubTypeList().setListData(new Object[0]);
+					gameMakerView.getActionList().setListData(keyboardAction);
+				} else if (gameMakerView.getEventSelected() == "TimeChange") {
+					gameMakerView.getEventSubTypeList().setListData(new Object[0]);
+					gameMakerView.getActionList().setListData(timeChangeAction);
 				} else {
-					theView.getEventSubTypeList().setListData(new Object[0]);
-					theView.getActionList().setListData(new Object[0]);
+					gameMakerView.getEventSubTypeList().setListData(new Object[0]);
+					gameMakerView.getActionList().setListData(new Object[0]);
 				}
 			} catch (Exception ex) {
-				theView.displayErrorMessage(ex.toString());
+				gameMakerView.displayErrorMessage(ex.toString());
 			}
 			logEL.info("EventsListener : actionPerformed : Exit");
 		}
 
 	}
 
+	/*
+	 * Save Button Listener
+	 *
+	 */
 	class SaveSpriteListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logSSL = LogManager.getLogger(SaveSpriteListener.class);
 
@@ -332,25 +343,29 @@ public class GameMakerController {
 			logSSL.info("SaveSpriteListener : actionPerformed : Enter");
 			try {
 
-				if (theView.getGameBoardPanel().getSpriteList().isEmpty())
+				if (gameMakerView.getGameBoardPanel().getSpriteList().isEmpty())
 					JOptionPane.showMessageDialog(null, "Nothing to save!!");
 				else {
-					saveableObject.setSpriteList(theView.getGameBoardPanel().getSpriteList());
+					saveableObject.setSpriteList(gameMakerView.getGameBoardPanel().getSpriteList());
 					saveGameMakerState.setSaveableObjects(saveableObject);
 
 					saveGameMakerState.save();
-					theView.clearUserInput();
+					gameMakerView.clearUserInput();
 					flag = 0;
 				}
 
 			} catch (Exception ex) {
-				theView.displayErrorMessage(ex.toString());
+				gameMakerView.displayErrorMessage(ex.toString());
 			}
 			logSSL.info("SaveSpriteListener : actionPerformed : Exit");
 		}
 
 	}
 
+	/*
+	 * Load Button Listener
+	 *
+	 */
 	class LoadSpriteLister implements ActionListener {
 		final org.apache.logging.log4j.Logger logLSL = LogManager.getLogger(LoadSpriteLister.class);
 
@@ -367,7 +382,7 @@ public class GameMakerController {
 
 				// load the images back in to the loaded spritelist
 				loadedSpriteList = processAfterLoad(loadedSpriteList);
-				theView.getGameBoardPanel().setSpriteList(loadedSpriteList);
+				gameMakerView.getGameBoardPanel().setSpriteList(loadedSpriteList);
 				for (SpriteModel sprite : loadedSpriteList) {
 					addSpriteAsEventListener(sprite, loadedSpriteList);
 					spriteNames.add(sprite.getName());
@@ -378,8 +393,8 @@ public class GameMakerController {
 				setGamePlayerBackgroundImage(backgroundGameIndex);
 				setGameMakerBackgroundText(backgroundGameIndex);
 
-				theView.getGameBoardPanel().repaint();
-				theView.getPlayGameButton().setEnabled(true);
+				gameMakerView.getGameBoardPanel().repaint();
+				gameMakerView.getPlayGameButton().setEnabled(true);
 
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -390,6 +405,10 @@ public class GameMakerController {
 
 	}
 
+	/*
+	 * Play Button Listener
+	 *
+	 */
 	class PlayGameListener implements ActionListener {
 		final org.apache.logging.log4j.Logger logPGL = LogManager.getLogger(LoadSpriteLister.class);
 
@@ -397,22 +416,26 @@ public class GameMakerController {
 		public void actionPerformed(ActionEvent arg0) {
 			logPGL.info("PlayGameListener : actionPerformed : Enter");
 			timerObs = new TimerObservable();
-			theView.getGameBoardPanel().requestFocusInWindow();
+			gameMakerView.getGameBoardPanel().requestFocusInWindow();
 
 			StartCommand startCmd;
 
-			timerObs.addObserver((Observer) theView.getGameBoardPanel());
-			timerObs.addObserver((Observer) theView.getClockPanel());
+			timerObs.addObserver((Observer) gameMakerView.getGameBoardPanel());
+			timerObs.addObserver((Observer) gameMakerView.getClockPanel());
 
 			startCmd = new StartCommand(timerObs);
 			setTheCommand(startCmd);
 			press();
-			theView.getPlayGameButton().setEnabled(false);
-			theView.getLoadSpriteButton().setEnabled(false);
+			gameMakerView.getPlayGameButton().setEnabled(false);
+			gameMakerView.getLoadSpriteButton().setEnabled(false);
 			logPGL.info("PlayGameListener : actionPerformed : Exit");
 		}
 	}
 
+	/*
+	 * KeyBoard Button Listener
+	 *
+	 */
 	class KeyBoardListener extends KeyAdapter {
 		final org.apache.logging.log4j.Logger logKBL = LogManager.getLogger(LoadSpriteLister.class);
 
@@ -438,6 +461,10 @@ public class GameMakerController {
 		}
 	}
 
+	/*
+	 * Create Button Listener
+	 *
+	 */
 	class CreateSpriteListener extends DropTargetAdapter {
 		private DropTarget dropTarget;
 		private GameMakerView gameMakerView;
@@ -477,29 +504,29 @@ public class GameMakerController {
 			}
 
 			try {
-				if (theView.getSpriteName().isEmpty())
+				if (gameMakerView.getSpriteName().isEmpty())
 					JOptionPane.showMessageDialog(null, "Please enter sprite name!!");
-				else if (spriteNames.contains(theView.getSpriteName()) && !spriteNames.isEmpty())
-					JOptionPane.showMessageDialog(null, "Sprite name already taken!! Try " + theView.getSpriteName() + "1 or "
-							+ theView.getSpriteName() + "a");
+				else if (spriteNames.contains(gameMakerView.getSpriteName()) && !spriteNames.isEmpty())
+					JOptionPane.showMessageDialog(null, "Sprite name already taken!! Try " + gameMakerView.getSpriteName() + "1 or "
+							+ gameMakerView.getSpriteName() + "a");
 				else {
-					spriteNames.add(theView.getSpriteName());
+					spriteNames.add(gameMakerView.getSpriteName());
 					eventActionDetails = new HashMap<String, ArrayList<String>>();
-					sprite = new SpriteModel(theView.getSpriteName(), theView.getSpriteXPosition(), theView.getSpriteYPosition(),
-							theView.getSelectedImage(), theView.getImageSelectedIndex(), theView.isDisplayFlagView(),
+					sprite = new SpriteModel(gameMakerView.getSpriteName(), gameMakerView.getSpriteXPosition(), gameMakerView.getSpriteYPosition(),
+							gameMakerView.getSelectedImage(), gameMakerView.getImageSelectedIndex(), gameMakerView.isDisplayFlagView(),
 							eventActionDetails);
 					// System.out.println(theView.getSelectedImage().getSource());
 
-					sprite.setRectangleTest(theView.getSpriteXPosition(), theView.getSpriteYPosition(), theView
-							.getImageSelected().getWidth(null), theView.getImageSelected().getHeight(null));
-					theView.getGameBoardPanel().addSprite(sprite);
+					sprite.setRectangleTest(gameMakerView.getSpriteXPosition(), gameMakerView.getSpriteYPosition(), gameMakerView
+							.getImageSelected().getWidth(null), gameMakerView.getImageSelected().getHeight(null));
+					gameMakerView.getGameBoardPanel().addSprite(sprite);
 
-					theView.getGameBoardPanel().repaint();
-					theView.getAssociateButton().setEnabled(true);
-					theView.getEventsList().setEnabled(true);
+					gameMakerView.getGameBoardPanel().repaint();
+					gameMakerView.getAssociateButton().setEnabled(true);
+					gameMakerView.getEventsList().setEnabled(true);
 				}
 			} catch (Exception ex) {
-				theView.displayErrorMessage(ex.toString());
+				gameMakerView.displayErrorMessage(ex.toString());
 			}
 		}
 
@@ -515,7 +542,7 @@ public class GameMakerController {
 	private void setGameMakerTimerCheck(SaveableObject loadableObject) {
 
 		if (loadableObject.isTimerCheckIndicator())
-			theView.getClockCheckBox().doClick();
+			gameMakerView.getClockCheckBox().doClick();
 
 	}
 
@@ -523,7 +550,7 @@ public class GameMakerController {
 
 		String getImagePath = backgroudImagePathMap.get(backGroundImageIndex);
 		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(getImagePath));
-		theView.getGameBoardPanel().setBackgroundImage(icon);
+		gameMakerView.getGameBoardPanel().setBackgroundImage(icon);
 	}
 
 	// add the events list back after loading
@@ -563,7 +590,7 @@ public class GameMakerController {
 
 	// set the Background text after Load
 	public void setGameMakerBackgroundText(int backgroundGameIndex) {
-		theView.getBackgroundList().setSelectedIndex(backgroundGameIndex);
+		gameMakerView.getBackgroundList().setSelectedIndex(backgroundGameIndex);
 
 	}
 
