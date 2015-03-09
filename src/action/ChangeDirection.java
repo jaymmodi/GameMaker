@@ -132,6 +132,6 @@ public class ChangeDirection implements Action {
 	}
 
 	public void setUnittestFlag(boolean unitTestFlag) {
-		unitTestFlag = unitTestFlag;
+		this.unitTestFlag = unitTestFlag;
 	}
 }
